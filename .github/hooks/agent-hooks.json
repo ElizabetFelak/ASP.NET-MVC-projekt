@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "type": "command",
+        "command": "powershell.exe -ExecutionPolicyBypass -Command \"$input | Add-Content -Path 'c:\\Users\\lolno\\source\\repos\\ASP.NET-MVC-projekt\\.github\\hooks\\agent_log.txt'\""
+      }
+    ],
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "powershell.exe -ExecutionPolicyBypass -Command \"$input | Add-Content -Path 'c:\\Users\\lolno\\source\\repos\\ASP.NET-MVC-projekt\\.github\\hooks\\agent_log.txt'\""
+      }
+    ]
+  }
+}

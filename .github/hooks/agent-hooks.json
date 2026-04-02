@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "type": "command",
+        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'c:\\Users\\lolno\\source\\repos\\ASP.NET-MVC-projekt\\.github\\hooks\\write-agent-log.ps1' -HookName UserPromptSubmit"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'c:\\Users\\lolno\\source\\repos\\ASP.NET-MVC-projekt\\.github\\hooks\\write-agent-log.ps1' -HookName PreToolUse"
+      }
+    ]
+  }
+}

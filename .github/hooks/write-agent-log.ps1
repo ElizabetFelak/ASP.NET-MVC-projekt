@@ -4,7 +4,7 @@ param(
     [string[]]$PayloadParts
 )
 
-$logPath = 'c:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\agent_log.txt'
+$logPath = 'c:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\agent_log.txt'
 
 $payload = if ($PayloadParts -and $PayloadParts.Count -gt 0) {
     $PayloadParts -join ' '

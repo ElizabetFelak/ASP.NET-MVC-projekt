@@ -67,7 +67,6 @@ namespace PokemonCollectorApp.Console
             System.Console.WriteLine("\nUPIT 3: Rijetke kartice sortirane po cijeni:");
             var rareCards = pokemonCards
                 .Where(p => p.Rarity == CardRarity.Rare || 
-                           p.Rarity == CardRarity.VeryRare ||
                            p.Rarity == CardRarity.UltraRare ||
                            p.Rarity == CardRarity.SecretRare ||
                            p.Rarity == CardRarity.Promo)
@@ -156,7 +155,7 @@ namespace PokemonCollectorApp.Console
                 {
                     set.SetName,
                     TotalCards = set.Cards.Count,
-                    RareCards = set.Cards.Count(card => card.Rarity == CardRarity.Rare || card.Rarity == CardRarity.VeryRare || card.Rarity == CardRarity.UltraRare || card.Rarity == CardRarity.SecretRare)
+                    RareCards = set.Cards.Count(card => card.Rarity == CardRarity.Rare || card.Rarity == CardRarity.UltraRare || card.Rarity == CardRarity.SecretRare)
                 })
                 .OrderByDescending(x => x.RareCards)
                 .ThenByDescending(x => x.TotalCards)
@@ -319,7 +318,7 @@ namespace PokemonCollectorApp.Console
                     CardName = "Dragonite",
                     PokemonNumber = 149,
                     Type = PokemonType.Dragon,
-                    Rarity = CardRarity.VeryRare,
+                    Rarity = CardRarity.Rare,
                     MarketPrice = 5500m,
                     CardSetId = 2,
                     CreatedDate = new DateTime(1999, 6, 20),
@@ -330,7 +329,7 @@ namespace PokemonCollectorApp.Console
                     Id = 6,
                     CardName = "Gengar",
                     PokemonNumber = 94,
-                    Type = PokemonType.Ghost,
+                    Type = PokemonType.Psychic,
                     Rarity = CardRarity.Rare,
                     MarketPrice = 4800m,
                     CardSetId = 2,
@@ -355,8 +354,8 @@ namespace PokemonCollectorApp.Console
                     Id = 8,
                     CardName = "Aerodactyl",
                     PokemonNumber = 142,
-                    Type = PokemonType.Rock,
-                    Rarity = CardRarity.VeryRare,
+                    Type = PokemonType.Fighting,
+                    Rarity = CardRarity.Rare,
                     MarketPrice = 6200m,
                     CardSetId = 3,
                     CreatedDate = new DateTime(1999, 10, 15),

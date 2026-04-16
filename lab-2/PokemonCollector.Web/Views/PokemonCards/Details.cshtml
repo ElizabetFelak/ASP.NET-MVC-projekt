@@ -1,0 +1,40 @@
+@model PokemonCard
+@{
+    ViewData["Title"] = "Pokemon Card Details";
+}
+
+<section class="page-header">
+    <h1>@Model.CardName</h1>
+    <p>Detailed card profile and collection placement.</p>
+</section>
+
+<section class="details-grid">
+    <article class="detail-card">
+        <h2>Card Profile</h2>
+        <dl>
+            <dt>Pokedex #</dt><dd>@Model.PokemonNumber</dd>
+            <dt>Type</dt><dd>@Model.Type</dd>
+            <dt>Rarity</dt><dd>@Model.Rarity</dd>
+            <dt>Market Price</dt><dd>@Model.MarketPrice.ToString("C")</dd>
+        </dl>
+        @if (Model.CardSet != null)
+        {
+            <p class="inline-meta">Set: <a asp-controller="CardSets" asp-action="Details" asp-route-id="@Model.CardSet.Id">@Model.CardSet.SetName</a></p>
+        }
+    </article>
+
+    <article class="detail-card">
+        <h2>Used in Collections</h2>
+        <ul class="linked-list">
+            @foreach (var instance in Model.CardInstances)
+            {
+                <li>
+                    <a asp-controller="Collections" asp-action="Details" asp-route-id="@instance.CollectionId">@(instance.Collection?.CollectionName ?? "Collection")</a>
+                    <span class="muted">Qty: @instance.Quantity</span>
+                </li>
+            }
+        </ul>
+    </article>
+</section>
+
+<a class="back-link" asp-action="Index">Back to Pokemon Cards</a>

@@ -1,0 +1,41 @@
+@model CardInstance
+@{
+    ViewData["Title"] = "Card Instance Details";
+}
+
+<section class="page-header">
+    <h1>Card Instance #@Model.Id</h1>
+    <p>Condition and ownership details for a specific card instance.</p>
+</section>
+
+<section class="details-grid">
+    <article class="detail-card">
+        <h2>Instance Data</h2>
+        <dl>
+            <dt>Condition</dt><dd>@Model.Condition</dd>
+            <dt>Quantity</dt><dd>@Model.Quantity</dd>
+            <dt>Acquired</dt><dd>@Model.AcquisitionDate.ToString("yyyy-MM-dd")</dd>
+            <dt>Current Value</dt><dd>@Model.CurrentValue.ToString("C")</dd>
+        </dl>
+    </article>
+
+    <article class="detail-card">
+        <h2>Related Records</h2>
+        <ul class="linked-list">
+            <li>
+                @if (Model.PokemonCard != null)
+                {
+                    <a asp-controller="PokemonCards" asp-action="Details" asp-route-id="@Model.PokemonCard.Id">@Model.PokemonCard.CardName</a>
+                }
+            </li>
+            <li>
+                @if (Model.Collection != null)
+                {
+                    <a asp-controller="Collections" asp-action="Details" asp-route-id="@Model.Collection.Id">@Model.Collection.CollectionName</a>
+                }
+            </li>
+        </ul>
+    </article>
+</section>
+
+<a class="back-link" asp-action="Index">Back to Card Instances</a>

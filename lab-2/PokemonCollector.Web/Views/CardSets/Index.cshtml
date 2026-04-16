@@ -1,0 +1,30 @@
+@model IReadOnlyList<CardSet>
+@{
+    ViewData["Title"] = "Card Sets";
+}
+
+    <section class="page-header">
+        <h1>Card Set Collection</h1>
+        <p class="subtitle">@Model.Count() Pokemon TCG sets available</p>
+    </section>
+
+    <div class="card-sets-grid">
+        @foreach (var set in Model)
+        {
+            <div class="card entity-card">
+                <div class="card-header">
+                    <h3>@set.SetName</h3>
+                    <span class="card-number">@set.SetCode</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">
+                        <span class="rarity">Released: @set.ReleaseDate.ToString("MMM dd, yyyy")</span>
+                        <span class="price">@set.TotalCards cards</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="card-link primary" asp-action="Details" asp-route-id="@set.Id">View Set →</a>
+                </div>
+            </div>
+        }
+    </div>

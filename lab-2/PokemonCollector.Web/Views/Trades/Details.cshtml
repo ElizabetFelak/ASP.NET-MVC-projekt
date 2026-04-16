@@ -1,0 +1,40 @@
+@model Trade
+@{
+    ViewData["Title"] = "Trade Details";
+}
+
+<section class="page-header">
+    <h1>Trade #@Model.Id</h1>
+    <p>Participant and transaction details.</p>
+</section>
+
+<section class="details-grid">
+    <article class="detail-card">
+        <h2>Transaction</h2>
+        <dl>
+            <dt>Amount</dt><dd>@Model.TransactionAmount.ToString("C")</dd>
+            <dt>Status</dt><dd>@Model.TradeStatus</dd>
+            <dt>Date</dt><dd>@Model.TradeDate.ToString("yyyy-MM-dd")</dd>
+        </dl>
+    </article>
+
+    <article class="detail-card">
+        <h2>Participants</h2>
+        <ul class="linked-list">
+            @if (Model.Sender != null)
+            {
+                <li><a asp-controller="Users" asp-action="Details" asp-route-id="@Model.Sender.Id">Sender: @Model.Sender.Username</a></li>
+            }
+            @if (Model.Receiver != null)
+            {
+                <li><a asp-controller="Users" asp-action="Details" asp-route-id="@Model.Receiver.Id">Receiver: @Model.Receiver.Username</a></li>
+            }
+            @if (Model.CardInstance != null)
+            {
+                <li><a asp-controller="CardInstances" asp-action="Details" asp-route-id="@Model.CardInstance.Id">Card Instance #@Model.CardInstance.Id</a></li>
+            }
+        </ul>
+    </article>
+</section>
+
+<a class="back-link" asp-action="Index">Back to Trades</a>

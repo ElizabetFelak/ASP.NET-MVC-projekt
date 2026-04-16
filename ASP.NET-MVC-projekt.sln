@@ -1,3 +1,4 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
@@ -6,22 +7,51 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab-1", "lab-1", "{BE23F390
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonCollectorApp", "lab-1\PokemonCollectorApp.csproj", "{5E744B27-3A9B-2F55-4370-C817C09AC504}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab-2", "lab-2", "{B71EAF2C-3D57-D350-38FC-F30E50A0CD26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonCollector.Web", "lab-2\PokemonCollector.Web\PokemonCollector.Web.csproj", "{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Debug|x64.Build.0 = Debug|Any CPU
+		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Debug|x86.Build.0 = Debug|Any CPU
 		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Release|x64.ActiveCfg = Release|Any CPU
+		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Release|x64.Build.0 = Release|Any CPU
+		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Release|x86.ActiveCfg = Release|Any CPU
+		{5E744B27-3A9B-2F55-4370-C817C09AC504}.Release|x86.Build.0 = Release|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Debug|x64.Build.0 = Debug|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Debug|x86.Build.0 = Debug|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Release|x64.ActiveCfg = Release|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Release|x64.Build.0 = Release|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Release|x86.ActiveCfg = Release|Any CPU
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5E744B27-3A9B-2F55-4370-C817C09AC504} = {BE23F390-6A9B-4676-49EC-710FA516AE06}
+		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0} = {B71EAF2C-3D57-D350-38FC-F30E50A0CD26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F829188-16E1-4E7D-ACBB-E97D83CC40CD}

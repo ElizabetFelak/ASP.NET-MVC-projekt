@@ -1,0 +1,40 @@
+@model Collection
+@{
+    ViewData["Title"] = "Collection Details";
+}
+
+<section class="page-header">
+    <h1>@Model.CollectionName</h1>
+    <p>Collection summary and card instance breakdown.</p>
+</section>
+
+<section class="details-grid">
+    <article class="detail-card">
+        <h2>Summary</h2>
+        <dl>
+            <dt>Owner</dt><dd>@(Model.User?.Username ?? "Unknown")</dd>
+            <dt>Visibility</dt><dd>@(Model.IsPublic ? "Public" : "Private")</dd>
+            <dt>Total Value</dt><dd>@Model.CollectionValue.ToString("C")</dd>
+            <dt>Created</dt><dd>@Model.CreatedDate.ToString("yyyy-MM-dd")</dd>
+        </dl>
+        @if (Model.User != null)
+        {
+            <p class="inline-meta">Owner profile: <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.User.Id">@Model.User.Username</a></p>
+        }
+    </article>
+
+    <article class="detail-card">
+        <h2>Card Instances</h2>
+        <ul class="linked-list">
+            @foreach (var instance in Model.CardInstances)
+            {
+                <li>
+                    <a asp-controller="CardInstances" asp-action="Details" asp-route-id="@instance.Id">Instance #@instance.Id</a>
+                    <span class="muted">@(instance.PokemonCard?.CardName ?? "Unknown card") x @instance.Quantity</span>
+                </li>
+            }
+        </ul>
+    </article>
+</section>
+
+<a class="back-link" asp-action="Index">Back to Collections</a>

@@ -1,0 +1,37 @@
+@model IReadOnlyList<Collection>
+@{
+    ViewData["Title"] = "Collections";
+}
+
+    <section class="page-header">
+        <h1>Collection Radar</h1>
+        <p class="subtitle">@Model.Count() collections tracked</p>
+    </section>
+
+    <div class="collections-grid">
+        @foreach (var collection in Model)
+        {
+            <div class="card entity-card">
+                <div class="card-header">
+                    <h3>@collection.CollectionName</h3>
+                    <span class="status-badge @(collection.IsPublic ? "status-active" : "status-pending")">@(collection.IsPublic ? "Public" : "Private")</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">
+                        @if (collection.User != null)
+                        {
+                            <span>
+                                Owner: 
+                                <a class="inline-link" asp-controller="Users" asp-action="Details" asp-route-id="@collection.User.Id">@collection.User.Username</a>
+                            </span>
+                        }
+                        <span class="price">@collection.CollectionValue.ToString("C")</span>
+                        <span class="rarity">Created: @collection.CreatedDate.ToString("MMM dd, yyyy")</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="card-link primary" asp-action="Details" asp-route-id="@collection.Id">View Collection →</a>
+                </div>
+            </div>
+        }
+    </div>

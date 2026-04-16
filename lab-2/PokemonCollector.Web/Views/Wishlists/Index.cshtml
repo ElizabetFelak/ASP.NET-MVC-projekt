@@ -1,0 +1,63 @@
+@model IReadOnlyList<Wishlist>
+@{
+    ViewData["Title"] = "Wishlists";
+}
+
+    <section class="page-header">
+        <h1>Wishlist Priorities</h1>
+        <p class="subtitle">@Model.Count() cards on priority lists</p>
+    </section>
+
+    <div class="card-grid">
+        @foreach (var wishlist in Model)
+        {
+                <div class="card entity-card">
+                    <div class="card-header">
+                        <h3>
+                            @if (wishlist.PokemonCard is not null)
+                            {
+                                <a class="card-link" asp-controller="PokemonCards" asp-action="Details" asp-route-id="@wishlist.PokemonCard.Id">@wishlist.PokemonCard.CardName</a>
+                            }
+                            else
+                            {
+                                <span>Unknown Card</span>
+                            }
+                        </h3>
+                        <span class="status-badge @(wishlist.Priority == 1 ? "status-active" : (wishlist.Priority == 2 ? "status-pending" : "status-archived"))">
+                            @if (wishlist.Priority == 1)
+                            {
+                                <text>High</text>
+                            }
+                            else if (wishlist.Priority == 2)
+                            {
+                                <text>Medium</text>
+                            }
+                            else
+                            {
+                                <text>Low</text>
+                            }
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                    @if (wishlist.User is not null)
+                    {
+                            <span>
+                                Collector: 
+                                <a class="inline-link" asp-controller="Users" asp-action="Details" asp-route-id="@wishlist.User.Id">@wishlist.User.Username</a>
+                            </span>
+                    }
+                    else
+                    {
+                            <span>Collector: Unknown</span>
+                    }
+                            <span class="price">Max Budget: @wishlist.MaxPrice.ToString("C")</span>
+                            <span class="rarity">Added: @wishlist.AddedDate.ToString("MMM dd, yyyy")</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="card-link primary" asp-action="Details" asp-route-id="@wishlist.Id">View Wishlist →</a>
+                    </div>
+                </div>
+        }
+</div>

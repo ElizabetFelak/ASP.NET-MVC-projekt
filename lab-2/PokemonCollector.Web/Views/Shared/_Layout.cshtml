@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Pokedex Trade Terminal</title>
+    <script type="importmap"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pokemon-theme.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/index-pages.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/details-pages.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/entities.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PokemonCollector.Web.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="shell top-shell">
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                <span class="brand-mark">⚡</span>
+                <span class="brand-text">Collector Hub</span>
+            </a>
+            <nav class="main-nav pokemon-nav" aria-label="Main navigation">
+                <a asp-controller="Home" asp-action="Index">Dashboard</a>
+                <a asp-controller="Users" asp-action="Index">Trainers</a>
+                <a asp-controller="CardSets" asp-action="Index">Sets</a>
+                <a asp-controller="PokemonCards" asp-action="Index">Pokédex</a>
+                <a asp-controller="Collections" asp-action="Index">Collections</a>
+                <a asp-controller="CardInstances" asp-action="Index">Inventory</a>
+                <a asp-controller="Trades" asp-action="Index">Trades</a>
+                <a asp-controller="Wishlists" asp-action="Index">Wishlist</a>
+            </nav>
+        </div>
+        <div class="shell breadcrumb-shell">
+            @await Html.PartialAsync("_Breadcrumbs", (IReadOnlyList<BreadcrumbItemViewModel>)(ViewData["Breadcrumbs"] as IReadOnlyList<BreadcrumbItemViewModel> ?? Array.Empty<BreadcrumbItemViewModel>()))
+        </div>
+    </header>
+
+    <div class="shell page-shell">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="shell footer-shell">
+            <span>Lab 2 HTML Binding</span>
+            <span>ASP.NET MVC Pokemon Collector</span>
+            <span>Designed with 🔥 and ⚡</span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,41 @@
+@model IReadOnlyList<BreadcrumbItemViewModel>
+@using Microsoft.AspNetCore.Routing
+
+@if (Model.Any())
+{
+    <nav class="breadcrumbs pokemon-breadcrumbs" aria-label="Breadcrumb">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            var item = Model[i];
+            var isLast = i == Model.Count - 1 || item.IsActive;
+
+            @if (i > 0)
+            {
+                <span class="crumb-sep">→</span>
+            }
+
+            @if (isLast)
+            {
+                <span class="crumb active">@item.Label</span>
+            }
+            else if (!string.IsNullOrWhiteSpace(item.Controller) && !string.IsNullOrWhiteSpace(item.Action))
+            {
+                IDictionary<string, string>? crumbRouteData = null;
+                if (item.RouteValues is not null)
+                {
+                    crumbRouteData = new RouteValueDictionary(item.RouteValues)
+                        .ToDictionary(x => x.Key, x => x.Value?.ToString() ?? string.Empty);
+                }
+
+                <a class="crumb"
+                   asp-controller="@item.Controller"
+                   asp-action="@item.Action"
+                   asp-all-route-data="@crumbRouteData">@item.Label</a>
+            }
+            else
+            {
+                <span class="crumb">@item.Label</span>
+            }
+        }
+    </nav>
+}

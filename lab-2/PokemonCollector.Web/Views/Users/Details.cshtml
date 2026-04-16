@@ -1,0 +1,35 @@
+@model User
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<section class="page-header">
+    <h1>@Model.Username</h1>
+    <p>User profile and collection ownership snapshot.</p>
+</section>
+
+<section class="details-grid">
+    <article class="detail-card">
+        <h2>Contact</h2>
+        <dl>
+            <dt>Email</dt><dd>@Model.Email</dd>
+            <dt>Phone</dt><dd>@Model.PhoneNumber</dd>
+            <dt>Address</dt><dd>@Model.Address</dd>
+            <dt>Budget</dt><dd>@Model.Budget.ToString("C")</dd>
+        </dl>
+    </article>
+
+    <article class="detail-card">
+        <h2>Collections</h2>
+        <ul class="linked-list">
+            @foreach (var collection in Model.Collections)
+            {
+                <li>
+                    <a asp-controller="Collections" asp-action="Details" asp-route-id="@collection.Id">@collection.CollectionName</a>
+                </li>
+            }
+        </ul>
+    </article>
+</section>
+
+<a class="back-link" asp-action="Index">Back to Users</a>

@@ -1,0 +1,319 @@
+/* =====================================================================
+   INDEX PAGES - Grid-based, scan-friendly list layouts
+   ===================================================================== */
+
+/* =====================================================================
+   PAGE HEADER SECTION
+   ===================================================================== */
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.page-header .subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* =====================================================================
+   CARD GRID - Responsive multi-column layout
+   ===================================================================== */
+
+.card-grid,
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* =====================================================================
+   INDEX TABLE VARIATIONS
+   ===================================================================== */
+
+.index-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.index-table thead {
+  background: linear-gradient(90deg, var(--pokemon-blue) 0%, #1e4a80 100%);
+  color: #fff;
+}
+
+.index-table thead th {
+  padding: 1.2rem 1rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+}
+
+.index-table tbody tr {
+  border-bottom: 1px solid var(--border-light);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.index-table tbody tr:hover {
+  background: var(--bg-accent);
+  box-shadow: inset 4px 0 0 var(--pokemon-red);
+}
+
+.index-table tbody td {
+  padding: 1rem;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.index-table .cell-number {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.index-table .cell-primary {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.index-table .cell-secondary {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* =====================================================================
+   FILTER & CONTROL BAR (above listings)
+   ===================================================================== */
+
+.index-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-light);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-light);
+}
+
+.index-controls input,
+.index-controls select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-light);
+  border-radius: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.index-controls input:focus,
+.index-controls select:focus {
+  outline: none;
+  border-color: var(--pokemon-red);
+  box-shadow: 0 0 0 3px rgba(238, 21, 21, 0.1);
+}
+
+/* =====================================================================
+   EMPTY STATE
+   ===================================================================== */
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: var(--bg-light);
+  border-radius: 0.75rem;
+  border: 2px dashed var(--border-light);
+}
+
+.empty-state h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.empty-state p {
+  margin: 0 0 1.5rem 0;
+  color: var(--text-secondary);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* =====================================================================
+   ENTITY-SPECIFIC GRID PATTERNS
+   ===================================================================== */
+
+/* Pokemon Cards Grid */
+.pokemon-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Collections Grid */
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Users/Trainers Grid */
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Card Sets Grid */
+.card-sets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.5rem;
+}
+
+/* =====================================================================
+   PAGINATION
+   ===================================================================== */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.pagination a,
+.pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  background: var(--surface-white);
+  transition: all 0.2s ease;
+}
+
+.pagination a:hover {
+  background: var(--pokemon-yellow);
+  border-color: var(--pokemon-yellow);
+  color: var(--text-primary);
+}
+
+.pagination .active {
+  background: var(--pokemon-red);
+  color: #fff;
+  border-color: var(--pokemon-red);
+}
+
+/* =====================================================================
+   RESPONSIVE GRID ADJUSTMENTS
+   ===================================================================== */
+
+@media (max-width: 1024px) {
+  .card-grid,
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .pokemon-cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .collections-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  .users-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  .card-sets-grid {
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  }
+
+  .index-controls {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .card-grid,
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .pokemon-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .collections-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .users-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card-sets-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .index-table {
+    font-size: 0.85rem;
+  }
+
+  .index-table thead th,
+  .index-table tbody td {
+    padding: 0.7rem 0.5rem;
+  }
+
+  .index-controls {
+    flex-direction: column;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid,
+  .pokemon-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pokemon-cards-grid,
+  .users-grid,
+  .card-sets-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,37 @@
+@model IReadOnlyList<PokemonCard>
+@{
+    ViewData["Title"] = "Pokemon Cards";
+}
+
+    <section class="page-header">
+        <h1>Pokédex Card Catalog</h1>
+        <p class="subtitle">@Model.Count() Pokemon cards in circulation</p>
+    </section>
+
+    <div class="pokemon-cards-grid">
+        @foreach (var card in Model)
+        {
+            <div class="card entity-card type-@card.Type.ToString().ToLowerInvariant()">
+                <div class="card-header">
+                    <h3>@card.CardName</h3>
+                    <span class="card-number">#@card.PokemonNumber</span>
+                </div>
+                <div class="card-body">
+                    <div class="type-badge badge-@card.Type.ToString().ToLowerInvariant()">
+                        @card.Type
+                    </div>
+                    <div class="card-meta">
+                        <span class="rarity">Rarity: @card.Rarity</span>
+                        <span class="price">@card.MarketPrice.ToString("C")</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    @if (card.CardSet != null)
+                    {
+                        <a class="card-link" asp-controller="CardSets" asp-action="Details" asp-route-id="@card.CardSet.Id">@card.CardSet.SetName</a>
+                    }
+                    <a class="card-link primary" asp-action="Details" asp-route-id="@card.Id">View →</a>
+                </div>
+            </div>
+        }
+    </div>

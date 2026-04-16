@@ -1,0 +1,36 @@
+@model CardSet
+@{
+    ViewData["Title"] = "Card Set Details";
+}
+
+<section class="page-header">
+    <h1>@Model.SetName</h1>
+    <p>Set metadata and card lineup.</p>
+</section>
+
+<section class="details-grid">
+    <article class="detail-card">
+        <h2>Set Info</h2>
+        <dl>
+            <dt>Code</dt><dd>@Model.SetCode</dd>
+            <dt>Publisher</dt><dd>@Model.Publisher</dd>
+            <dt>Symbol</dt><dd>@Model.SetSymbol</dd>
+            <dt>Release</dt><dd>@Model.ReleaseDate.ToString("yyyy-MM-dd")</dd>
+        </dl>
+    </article>
+
+    <article class="detail-card">
+        <h2>Cards in Set</h2>
+        <ul class="linked-list">
+            @foreach (var card in Model.Cards)
+            {
+                <li>
+                    <a asp-controller="PokemonCards" asp-action="Details" asp-route-id="@card.Id">@card.CardName</a>
+                    <span class="muted">@card.Rarity</span>
+                </li>
+            }
+        </ul>
+    </article>
+</section>
+
+<a class="back-link" asp-action="Index">Back to Card Sets</a>

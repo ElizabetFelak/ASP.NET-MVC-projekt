@@ -1,0 +1,323 @@
+/* =====================================================================
+   POKEMON COLLECTOR THEME - Color Tokens & Type System
+   ===================================================================== */
+
+:root {
+  /* PRIMARY BRAND COLORS (Pokemon-Inspired) */
+  --pokemon-red: #EE1515;
+  --pokemon-blue: #2D5FB0;
+  --pokemon-yellow: #FFDE00;
+  --pokemon-gold: #DAA520;
+
+  /* TYPE COLORS (Pokemon Card Types) */
+  --type-normal: #A8A878;
+  --type-fire: #F08030;
+  --type-water: #6890F0;
+  --type-electric: #F8D030;
+  --type-grass: #78C850;
+  --type-ice: #98D8D8;
+  --type-fighting: #C03028;
+  --type-poison: #A040A0;
+  --type-ground: #E0C068;
+  --type-flying: #A890F0;
+  --type-psychic: #F85888;
+  --type-bug: #A8B820;
+  --type-rock: #B8A038;
+  --type-ghost: #705898;
+  --type-dragon: #7038F8;
+  --type-dark: #705848;
+  --type-steel: #B8B8D0;
+  --type-fairy: #EE99AC;
+
+  /* NEUTRAL & SURFACE */
+  --bg-light: #F5FFFE;
+  --bg-accent: #FFF8E7;
+  --surface-white: #FFFFFF;
+  --surface-secondary: #F0F4F8;
+  --text-primary: #1A1A2E;
+  --text-secondary: #4B5563;
+  --border-light: #E8E8F0;
+}
+
+/* =====================================================================
+   TYPE BADGES - Inline Pokemon type indicators
+   ===================================================================== */
+
+.type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Type badge color variants */
+.badge-normal {
+  background: var(--type-normal);
+}
+
+.badge-fire {
+  background: var(--type-fire);
+}
+
+.badge-water {
+  background: var(--type-water);
+}
+
+.badge-electric {
+  background: var(--type-electric);
+  color: #1a1a2e;
+  text-shadow: none;
+}
+
+.badge-grass {
+  background: var(--type-grass);
+}
+
+.badge-ice {
+  background: var(--type-ice);
+  color: #1a1a2e;
+  text-shadow: none;
+}
+
+.badge-fighting {
+  background: var(--type-fighting);
+}
+
+.badge-poison {
+  background: var(--type-poison);
+}
+
+.badge-ground {
+  background: var(--type-ground);
+  color: #1a1a2e;
+  text-shadow: none;
+}
+
+.badge-flying {
+  background: var(--type-flying);
+}
+
+.badge-psychic {
+  background: var(--type-psychic);
+}
+
+.badge-bug {
+  background: var(--type-bug);
+}
+
+.badge-rock {
+  background: var(--type-rock);
+  color: #1a1a2e;
+  text-shadow: none;
+}
+
+.badge-ghost {
+  background: var(--type-ghost);
+}
+
+.badge-dragon {
+  background: var(--type-dragon);
+}
+
+.badge-dark {
+  background: var(--type-dark);
+}
+
+.badge-steel {
+  background: var(--type-steel);
+  color: #1a1a2e;
+  text-shadow: none;
+}
+
+.badge-fairy {
+  background: var(--type-fairy);
+  color: #1a1a2e;
+  text-shadow: none;
+}
+
+/* Generic rarity badge */
+.badge {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.25rem;
+  background: #E8E8F0;
+  color: #1a1a2e;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* =====================================================================
+   CARD CONTAINERS - Consistent card styling across entity types
+   ===================================================================== */
+
+.entity-card {
+  background: var(--surface-white);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--pokemon-yellow);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.entity-card:hover {
+  border-left-color: var(--pokemon-red);
+  box-shadow: 0 4px 16px rgba(238, 21, 21, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Type-based left border colors */
+.entity-card.type-normal {
+  border-left-color: var(--type-normal);
+}
+
+.entity-card.type-fire {
+  border-left-color: var(--type-fire);
+}
+
+.entity-card.type-water {
+  border-left-color: var(--type-water);
+}
+
+.entity-card.type-electric {
+  border-left-color: var(--type-electric);
+}
+
+.entity-card.type-grass {
+  border-left-color: var(--type-grass);
+}
+
+.entity-card.type-ice {
+  border-left-color: var(--type-ice);
+}
+
+.entity-card.type-fighting {
+  border-left-color: var(--type-fighting);
+}
+
+.entity-card.type-poison {
+  border-left-color: var(--type-poison);
+}
+
+.entity-card.type-ground {
+  border-left-color: var(--type-ground);
+}
+
+.entity-card.type-flying {
+  border-left-color: var(--type-flying);
+}
+
+.entity-card.type-psychic {
+  border-left-color: var(--type-psychic);
+}
+
+.entity-card.type-bug {
+  border-left-color: var(--type-bug);
+}
+
+.entity-card.type-rock {
+  border-left-color: var(--type-rock);
+}
+
+.entity-card.type-ghost {
+  border-left-color: var(--type-ghost);
+}
+
+.entity-card.type-dragon {
+  border-left-color: var(--type-dragon);
+}
+
+.entity-card.type-dark {
+  border-left-color: var(--type-dark);
+}
+
+.entity-card.type-steel {
+  border-left-color: var(--type-steel);
+}
+
+.entity-card.type-fairy {
+  border-left-color: var(--type-fairy);
+}
+
+.card-header {
+  padding: 1rem 1rem 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card-number {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.card-body {
+  padding: 0.75rem 1rem;
+  flex-grow: 1;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.card-meta .rarity {
+  color: var(--text-secondary);
+}
+
+.card-meta .price {
+  color: var(--pokemon-gold);
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
+
+.card-footer {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--surface-secondary);
+}
+
+.card-link {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.card-link:hover {
+  color: var(--pokemon-red);
+}
+
+.card-link.primary {
+  color: var(--pokemon-red);
+  font-weight: 600;
+}
+
+.card-link.primary:hover {
+  color: var(--pokemon-blue);
+}

@@ -1,0 +1,36 @@
+@model Wishlist
+@{
+    ViewData["Title"] = "Wishlist Details";
+}
+
+<section class="page-header">
+    <h1>Wishlist #@Model.Id</h1>
+    <p>Priority target for a collector.</p>
+</section>
+
+<section class="details-grid">
+    <article class="detail-card">
+        <h2>Wishlist Target</h2>
+        <dl>
+            <dt>Priority</dt><dd>@Model.Priority</dd>
+            <dt>Max Price</dt><dd>@Model.MaxPrice.ToString("C")</dd>
+            <dt>Added</dt><dd>@Model.AddedDate.ToString("yyyy-MM-dd")</dd>
+        </dl>
+    </article>
+
+    <article class="detail-card">
+        <h2>Related Records</h2>
+        <ul class="linked-list">
+            @if (Model.User != null)
+            {
+                <li><a asp-controller="Users" asp-action="Details" asp-route-id="@Model.User.Id">@Model.User.Username</a></li>
+            }
+            @if (Model.PokemonCard != null)
+            {
+                <li><a asp-controller="PokemonCards" asp-action="Details" asp-route-id="@Model.PokemonCard.Id">@Model.PokemonCard.CardName</a></li>
+            }
+        </ul>
+    </article>
+</section>
+
+<a class="back-link" asp-action="Index">Back to Wishlists</a>

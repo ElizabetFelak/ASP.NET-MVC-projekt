@@ -1,0 +1,127 @@
+﻿@model HomeIndexViewModel
+@{
+    ViewData["Title"] = "Collector Mission Board";
+}
+
+<section class="mission-hero">
+    <div class="hero-copy-block">
+        <p class="eyebrow">Collector Control Deck</p>
+        <h1>Run Every Move From One Radar</h1>
+        <p class="hero-copy">Monitor value spikes, priority targets, and active trades without leaving the board. Use the streams below to jump into index pages or inspect specific records.</p>
+        <div class="hero-actions">
+            <a class="hero-button primary" asp-controller="Collections" asp-action="Index">Open Collections Radar</a>
+            <a class="hero-button" asp-controller="Trades" asp-action="Index">Review Trade Activity</a>
+        </div>
+    </div>
+    <aside class="hero-stat-panel" aria-label="Mission highlights">
+        <h2>Mission Highlights</h2>
+        <ul>
+            <li><span>Collections tracked</span><strong>@Model.TopCollections.Count</strong></li>
+            <li><span>Wishlist priorities</span><strong>@Model.TopWishlistItems.Count</strong></li>
+            <li><span>Recent trades</span><strong>@Model.LatestTrades.Count</strong></li>
+        </ul>
+    </aside>
+</section>
+
+<section class="intel-grid" aria-label="Live collector streams">
+    <article class="intel-card">
+        <header>
+            <h2>Top Collections</h2>
+            <a asp-controller="Collections" asp-action="Index">View All</a>
+        </header>
+        @if (Model.TopCollections.Any())
+        {
+            <ul>
+                @foreach (var collection in Model.TopCollections)
+                {
+                    <li>
+                        <div>
+                            <strong>@collection.CollectionName</strong>
+                            <span>Owner: @(collection.User?.Username ?? "Unknown owner")</span>
+                        </div>
+                        <div class="row-actions">
+                            <span class="chip">@collection.CollectionValue.ToString("C")</span>
+                            <a asp-controller="Collections" asp-action="Details" asp-route-id="@collection.Id">Details</a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="empty-note">No collections are available in the mock feed.</p>
+        }
+    </article>
+
+    <article class="intel-card">
+        <header>
+            <h2>Most Wanted Cards</h2>
+            <a asp-controller="Wishlists" asp-action="Index">View All</a>
+        </header>
+        @if (Model.TopWishlistItems.Any())
+        {
+            <ul>
+                @foreach (var wishlist in Model.TopWishlistItems)
+                {
+                    <li>
+                        <div>
+                            <strong>@(wishlist.PokemonCard?.CardName ?? "Unknown card")</strong>
+                            <span>Requested by @(wishlist.User?.Username ?? "Unknown user")</span>
+                        </div>
+                        <div class="row-actions">
+                            <span class="chip">Priority @wishlist.Priority</span>
+                            <a asp-controller="Wishlists" asp-action="Details" asp-route-id="@wishlist.Id">Details</a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="empty-note">No wishlist items are available in the mock feed.</p>
+        }
+    </article>
+
+    <article class="intel-card">
+        <header>
+            <h2>Latest Trades</h2>
+            <a asp-controller="Trades" asp-action="Index">View All</a>
+        </header>
+        @if (Model.LatestTrades.Any())
+        {
+            <ul>
+                @foreach (var trade in Model.LatestTrades)
+                {
+                    <li>
+                        <div>
+                            <strong>@(trade.Sender?.Username ?? "Unknown") -> @(trade.Receiver?.Username ?? "Unknown")</strong>
+                            <span>@trade.TradeDate.ToString("yyyy-MM-dd")</span>
+                        </div>
+                        <div class="row-actions">
+                            <span class="chip">@trade.TransactionAmount.ToString("C")</span>
+                            <a asp-controller="Trades" asp-action="Details" asp-route-id="@trade.Id">Details</a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="empty-note">No trades are available in the mock feed.</p>
+        }
+    </article>
+</section>
+
+<section class="navigator-hub" aria-label="Entity navigation hub">
+    <h2>Navigator Hub</h2>
+    <p>Jump directly to each entity list.</p>
+    <div class="launch-grid">
+        <a asp-controller="Users" asp-action="Index"><span>Users</span><small>Profiles and budgets</small></a>
+        <a asp-controller="CardSets" asp-action="Index"><span>Card Sets</span><small>Set metadata</small></a>
+        <a asp-controller="PokemonCards" asp-action="Index"><span>Pokemon Cards</span><small>Card catalog</small></a>
+        <a asp-controller="Collections" asp-action="Index"><span>Collections</span><small>Ownership groups</small></a>
+        <a asp-controller="CardInstances" asp-action="Index"><span>Card Instances</span><small>Physical holdings</small></a>
+        <a asp-controller="Trades" asp-action="Index"><span>Trades</span><small>Exchange records</small></a>
+        <a asp-controller="Wishlists" asp-action="Index"><span>Wishlists</span><small>Target cards</small></a>
+    </div>
+</section>

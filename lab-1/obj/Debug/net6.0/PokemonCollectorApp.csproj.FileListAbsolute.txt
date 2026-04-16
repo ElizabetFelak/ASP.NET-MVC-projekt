@@ -1,0 +1,15 @@
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\bin\Debug\net6.0\PokemonCollectorApp.exe
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\bin\Debug\net6.0\PokemonCollectorApp.deps.json
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\bin\Debug\net6.0\PokemonCollectorApp.runtimeconfig.json
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\bin\Debug\net6.0\PokemonCollectorApp.dll
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\bin\Debug\net6.0\PokemonCollectorApp.pdb
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\PokemonCollectorApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\PokemonCollectorApp.AssemblyInfoInputs.cache
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\PokemonCollectorApp.AssemblyInfo.cs
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\PokemonCollectorApp.csproj.CoreCompileInputs.cache
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\PokemonCollectorApp.sourcelink.json
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\PokemonCollectorApp.dll
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\refint\PokemonCollectorApp.dll
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\PokemonCollectorApp.pdb
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\PokemonCollectorApp.genruntimeconfig.cache
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-1\obj\Debug\net6.0\ref\PokemonCollectorApp.dll

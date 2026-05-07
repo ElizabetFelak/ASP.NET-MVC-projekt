@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PokemonCollector.Web.Models;
 
@@ -41,6 +43,7 @@ public enum PokemonType
 
 public class User
 {
+    [Key]
     public int Id { get; set; }
     public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
@@ -48,11 +51,23 @@ public class User
     public decimal Budget { get; set; }
     public string PhoneNumber { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
-    public List<Collection> Collections { get; set; } = new();
+    
+    // 1-N veza: User -> Collections
+    public virtual ICollection<Collection> Collections { get; set; } = new List<Collection>();
+    
+    // 1-N veza: User -> Trade (kao Sender)
+    public virtual ICollection<Trade> SentTrades { get; set; } = new List<Trade>();
+    
+    // 1-N veza: User -> Trade (kao Receiver)
+    public virtual ICollection<Trade> ReceivedTrades { get; set; } = new List<Trade>();
+    
+    // 1-N veza: User -> Wishlist
+    public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
 }
 
 public class CardSet
 {
+    [Key]
     public int Id { get; set; }
     public string SetName { get; set; } = string.Empty;
     public DateTime ReleaseDate { get; set; }
@@ -60,71 +75,129 @@ public class CardSet
     public string Publisher { get; set; } = string.Empty;
     public string SetSymbol { get; set; } = string.Empty;
     public string SetCode { get; set; } = string.Empty;
-    public List<PokemonCard> Cards { get; set; } = new();
+    
+    // 1-N veza: CardSet -> PokemonCard
+    public virtual ICollection<PokemonCard> Cards { get; set; } = new List<PokemonCard>();
 }
 
 public class PokemonCard
 {
+    [Key]
     public int Id { get; set; }
     public string CardName { get; set; } = string.Empty;
     public int PokemonNumber { get; set; }
     public PokemonType Type { get; set; }
     public CardRarity Rarity { get; set; }
     public decimal MarketPrice { get; set; }
+    
+    [ForeignKey(nameof(CardSet))]
     public int CardSetId { get; set; }
+    
     public DateTime CreatedDate { get; set; }
-    public CardSet? CardSet { get; set; }
-    public List<CardInstance> CardInstances { get; set; } = new();
+    
+    // N-1 veza prema CardSet
+    public virtual CardSet? CardSet { get; set; }
+    
+    // 1-N veza: PokemonCard -> CardInstance
+    public virtual ICollection<CardInstance> CardInstances { get; set; } = new List<CardInstance>();
+    
+    // 1-N veza: PokemonCard -> Wishlist
+    public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
 }
 
 public class Collection
 {
+    [Key]
     public int Id { get; set; }
+    
+    [ForeignKey(nameof(User))]
     public int UserId { get; set; }
+    
     public string CollectionName { get; set; } = string.Empty;
     public DateTime CreatedDate { get; set; }
     public decimal CollectionValue { get; set; }
     public string Description { get; set; } = string.Empty;
     public bool IsPublic { get; set; }
-    public User? User { get; set; }
-    public List<CardInstance> CardInstances { get; set; } = new();
+    
+    // N-1 veza prema User
+    public virtual User? User { get; set; }
+    
+    // 1-N veza: Collection -> CardInstance
+    public virtual ICollection<CardInstance> CardInstances { get; set; } = new List<CardInstance>();
 }
 
 public class CardInstance
 {
+    [Key]
     public int Id { get; set; }
+    
+    [ForeignKey(nameof(Collection))]
     public int CollectionId { get; set; }
+    
+    [ForeignKey(nameof(PokemonCard))]
     public int PokemonCardId { get; set; }
+    
     public CardCondition Condition { get; set; }
     public int Quantity { get; set; }
     public DateTime AcquisitionDate { get; set; }
     public decimal CurrentValue { get; set; }
-    public Collection? Collection { get; set; }
-    public PokemonCard? PokemonCard { get; set; }
+    
+    // N-1 veza prema Collection
+    public virtual Collection? Collection { get; set; }
+    
+    // N-1 veza prema PokemonCard
+    public virtual PokemonCard? PokemonCard { get; set; }
+    
+    // 1-N veza: CardInstance -> Trade
+    public virtual ICollection<Trade> Trades { get; set; } = new List<Trade>();
 }
 
 public class Trade
 {
+    [Key]
     public int Id { get; set; }
+    
+    [ForeignKey(nameof(Sender))]
     public int SenderId { get; set; }
+    
+    [ForeignKey(nameof(Receiver))]
     public int ReceiverId { get; set; }
+    
+    [ForeignKey(nameof(CardInstance))]
     public int CardInstanceId { get; set; }
+    
     public DateTime TradeDate { get; set; }
     public decimal TransactionAmount { get; set; }
     public string TradeStatus { get; set; } = string.Empty;
-    public User? Sender { get; set; }
-    public User? Receiver { get; set; }
-    public CardInstance? CardInstance { get; set; }
+    
+    // N-1 veza prema User kao Sender
+    public virtual User? Sender { get; set; }
+    
+    // N-1 veza prema User kao Receiver
+    public virtual User? Receiver { get; set; }
+    
+    // N-1 veza prema CardInstance
+    public virtual CardInstance? CardInstance { get; set; }
 }
 
 public class Wishlist
 {
+    [Key]
     public int Id { get; set; }
+    
+    [ForeignKey(nameof(User))]
     public int UserId { get; set; }
+    
+    [ForeignKey(nameof(PokemonCard))]
     public int PokemonCardId { get; set; }
+    
     public DateTime AddedDate { get; set; }
     public int Priority { get; set; }
     public decimal MaxPrice { get; set; }
-    public User? User { get; set; }
-    public PokemonCard? PokemonCard { get; set; }
+    
+    // N-1 veza prema User
+    public virtual User? User { get; set; }
+    
+    // N-1 veza prema PokemonCard
+    public virtual PokemonCard? PokemonCard { get; set; }
 }

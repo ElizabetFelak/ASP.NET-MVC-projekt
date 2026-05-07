@@ -4,6 +4,7 @@ using PokemonCollector.Web.ViewModels;
 
 namespace PokemonCollector.Web.Controllers;
 
+[Route("karte")]
 public class PokemonCardsController : AppControllerBase
 {
     private readonly IPokemonRepository _repository;
@@ -13,6 +14,8 @@ public class PokemonCardsController : AppControllerBase
         _repository = repository;
     }
 
+    [Route("")]
+    [Route("index")]
     public IActionResult Index()
     {
         SetBreadcrumbs(
@@ -22,6 +25,8 @@ public class PokemonCardsController : AppControllerBase
         return View(_repository.GetPokemonCards());
     }
 
+    [Route("{id:int}")]
+    [Route("detalji/{id:int}")]
     public IActionResult Details(int id)
     {
         var card = _repository.GetPokemonCardById(id);

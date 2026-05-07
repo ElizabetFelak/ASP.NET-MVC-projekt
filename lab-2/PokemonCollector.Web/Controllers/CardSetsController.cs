@@ -4,6 +4,7 @@ using PokemonCollector.Web.ViewModels;
 
 namespace PokemonCollector.Web.Controllers;
 
+[Route("setovi")]
 public class CardSetsController : AppControllerBase
 {
     private readonly IPokemonRepository _repository;
@@ -13,6 +14,8 @@ public class CardSetsController : AppControllerBase
         _repository = repository;
     }
 
+    [Route("")]
+    [Route("index")]
     public IActionResult Index()
     {
         SetBreadcrumbs(
@@ -22,6 +25,8 @@ public class CardSetsController : AppControllerBase
         return View(_repository.GetCardSets());
     }
 
+    [Route("{id:int}")]
+    [Route("{id:int}/pregledaj")]
     public IActionResult Details(int id)
     {
         var set = _repository.GetCardSetById(id);

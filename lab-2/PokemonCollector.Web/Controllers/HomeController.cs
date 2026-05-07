@@ -5,6 +5,8 @@ using PokemonCollector.Web.ViewModels;
 
 namespace PokemonCollector.Web.Controllers;
 
+[Route("")]
+[Route("pocetna")]
 public class HomeController : AppControllerBase
 {
     private readonly IPokemonRepository _repository;
@@ -14,6 +16,8 @@ public class HomeController : AppControllerBase
         _repository = repository;
     }
 
+    [Route("")]
+    [Route("pocetna")]
     public IActionResult Index()
     {
         SetBreadcrumbs(new BreadcrumbItemViewModel { Label = "Home", IsActive = true });
@@ -38,6 +42,7 @@ public class HomeController : AppControllerBase
         return View(model);
     }
 
+    [Route("greska")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

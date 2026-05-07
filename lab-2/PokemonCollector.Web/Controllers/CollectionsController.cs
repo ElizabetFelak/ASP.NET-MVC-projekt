@@ -4,6 +4,7 @@ using PokemonCollector.Web.ViewModels;
 
 namespace PokemonCollector.Web.Controllers;
 
+[Route("kolekcije")]
 public class CollectionsController : AppControllerBase
 {
     private readonly IPokemonRepository _repository;
@@ -13,6 +14,9 @@ public class CollectionsController : AppControllerBase
         _repository = repository;
     }
 
+    [Route("")]
+    [Route("index")]
+    [Route("sve")]
     public IActionResult Index()
     {
         SetBreadcrumbs(
@@ -22,6 +26,8 @@ public class CollectionsController : AppControllerBase
         return View(_repository.GetCollections());
     }
 
+    [Route("{id:int}")]
+    [Route("{id:int}/detalji")]
     public IActionResult Details(int id)
     {
         var collection = _repository.GetCollectionById(id);

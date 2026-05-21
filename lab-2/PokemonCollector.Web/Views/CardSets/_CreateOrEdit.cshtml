@@ -1,0 +1,43 @@
+@model PokemonCollector.Web.Models.CardSet
+
+<div class="form-group">
+    <label asp-for="SetName" class="control-label"></label>
+    <input asp-for="SetName" class="form-control" />
+    <span asp-validation-for="SetName" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label class="control-label">Release Date</label>
+    @{ ViewData["FieldName"] = "ReleaseDate"; ViewData["Value"] = Model?.ReleaseDate; }
+    @await Html.PartialAsync("_DateTimePicker")
+    <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="TotalCards" class="control-label"></label>
+    <input asp-for="TotalCards" class="form-control" />
+    <span asp-validation-for="TotalCards" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Publisher" class="control-label"></label>
+    <input asp-for="Publisher" class="form-control" />
+    <span asp-validation-for="Publisher" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="SetSymbol" class="control-label"></label>
+    <input asp-for="SetSymbol" class="form-control" />
+    <span asp-validation-for="SetSymbol" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="SetCode" class="control-label"></label>
+    <input asp-for="SetCode" class="form-control" />
+    <span asp-validation-for="SetCode" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>

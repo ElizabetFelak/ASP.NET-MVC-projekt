@@ -1,0 +1,16 @@
+@model PokemonCollector.Web.Models.PokemonCard
+@{
+    ViewData["Title"] = "Create Pokemon Card";
+}
+
+<h1>Create Pokemon Card</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @await Html.PartialAsync("_CreateOrEdit", Model)
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

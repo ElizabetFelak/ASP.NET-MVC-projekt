@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PokemonCollector.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+28f7d375576b0e3c557070ca7e5a35c6e2d54d3e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4342fe88b7acacab44fb5bc423985729df18ac27")]
 [assembly: System.Reflection.AssemblyProductAttribute("PokemonCollector.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PokemonCollector.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

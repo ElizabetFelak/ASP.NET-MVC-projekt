@@ -3,54 +3,85 @@
     ViewData["Title"] = "Trades";
 }
 
-    <section class="page-header">
-        <h1>Trade Activity</h1>
-        <p class="subtitle">@Model.Count() transactions recorded</p>
-    </section>
+<section class="page-header">
+    <h1>Trade Activity</h1>
+    <p class="subtitle">@Model.Count() transactions recorded</p>
+</section>
 
-    <div class="card-grid">
-        @foreach (var trade in Model)
-        {
-                <div class="card entity-card">
-                    <div class="card-header">
-                        <h3>
-                            Trade #@trade.Id
-                        </h3>
-                        <span class="@(trade.TradeStatus == "Completed" ? "status-badge status-active" : trade.TradeStatus == "Pending" ? "status-badge status-pending" : "status-badge status-archived")">
-                            @trade.TradeStatus
-                        </span>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-meta">
-                    @if (trade.Sender is not null)
-                    {
-                            <span>
-                                From: 
-                                <a class="inline-link" asp-controller="Users" asp-action="Details" asp-route-id="@trade.Sender.Id">@trade.Sender.Username</a>
-                            </span>
-                    }
-                    else
-                    {
-                            <span>From: Unknown</span>
-                    }
-                    @if (trade.Receiver is not null)
-                    {
-                            <span>
-                                To: 
-                                <a class="inline-link" asp-controller="Users" asp-action="Details" asp-route-id="@trade.Receiver.Id">@trade.Receiver.Username</a>
-                            </span>
-                    }
-                    else
-                    {
-                            <span>To: Unknown</span>
-                    }
-                            <span class="price">Amount: @trade.TransactionAmount.ToString("C")</span>
-                            <span class="rarity">Date: @trade.TradeDate.ToString("MMM dd, yyyy")</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a class="card-link primary" asp-action="Details" asp-route-id="@trade.Id">View Trade →</a>
-                    </div>
-                </div>
-        }
+<div class="form-inline mb-3">
+    <input id="trades-search" class="form-control" placeholder="Search trades..." />
 </div>
+
+<div class="card-grid">
+    @foreach (var trade in Model)
+    {
+        <div class="card entity-card">
+            <div class="card-header">
+                <h3>
+                    Trade #@trade.Id
+                </h3>
+                <span class="@(trade.TradeStatus == "Completed" ? "status-badge status-active" : trade.TradeStatus == "Pending" ? "status-badge status-pending" : "status-badge status-archived")">
+                    @trade.TradeStatus
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                @if (trade.Sender is not null)
+                {
+                        <span>
+                            From: 
+                            <a class="inline-link" asp-controller="Users" asp-action="Details" asp-route-id="@trade.Sender.Id">@trade.Sender.Username</a>
+                        </span>
+                }
+                else
+                {
+                        <span>From: Unknown</span>
+                }
+                @if (trade.Receiver is not null)
+                {
+                        <span>
+                            To: 
+                            <a class="inline-link" asp-controller="Users" asp-action="Details" asp-route-id="@trade.Receiver.Id">@trade.Receiver.Username</a>
+                        </span>
+                }
+                else
+                {
+                        <span>To: Unknown</span>
+                }
+                    <span class="price">Amount: @trade.TransactionAmount.ToString("C")</span>
+                    <span class="rarity">Date: @trade.TradeDate.ToString("MMM dd, yyyy")</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="card-link primary" asp-action="Details" asp-route-id="@trade.Id">View Trade →</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        initAjaxSearch({
+            inputSelector: '#trades-search',
+            gridSelector: '.card-grid',
+            searchUrl: '/Trades/search',
+            renderItem: function (item) {
+                var badgeClass = item.tradeStatus === 'Completed' ? 'status-badge status-active' : (item.tradeStatus === 'Pending' ? 'status-badge status-pending' : 'status-badge status-archived');
+                return '<div class="card entity-card">' +
+                    '<div class="card-header"><h3>Trade #' + item.id + '</h3><span class="' + badgeClass + '">' + escapeHtml(item.tradeStatus) + '</span></div>' +
+                    '<div class="card-body"><div class="card-meta">' +
+                    '<span>From: ' + escapeHtml(item.senderName || 'Unknown') + '</span>' +
+                    '<span>To: ' + escapeHtml(item.receiverName || 'Unknown') + '</span>' +
+                    '<span class="price">Amount: ' + formatCurrency(item.transactionAmount) + '</span>' +
+                    '<span class="rarity">Date: ' + formatDate(item.tradeDate) + '</span>' +
+                    '</div></div>' +
+                    '<div class="card-footer"><a class="card-link primary" href="/Trades/' + item.id + '">View Trade →</a></div>' +
+                    '</div>';
+            }
+        });
+
+        function escapeHtml(text) { var div = document.createElement('div'); div.appendChild(document.createTextNode(text || '')); return div.innerHTML; }
+        function formatCurrency(value) { return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(value || 0); }
+        function formatDate(value) { return new Date(value).toLocaleDateString(); }
+    </script>
+}

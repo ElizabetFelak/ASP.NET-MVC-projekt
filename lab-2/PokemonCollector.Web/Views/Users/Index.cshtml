@@ -3,30 +3,60 @@
     ViewData["Title"] = "Users";
 }
 
-    <section class="page-header">
-        <h1>Trainer Registry</h1>
-        <p class="subtitle">@Model.Count() Pokemon collectors registered</p>
-    </section>
+<section class="page-header">
+    <h1>Trainer Registry</h1>
+    <p class="subtitle">@Model.Count() Pokemon collectors registered</p>
+</section>
 
-    <div class="users-grid">
-        @foreach (var user in Model)
-        {
-            <div class="card entity-card">
-                <div class="card-header">
-                    <h3>@user.Username</h3>
-                    <span class="status-badge status-active">Trainer</span>
-                </div>
-                <div class="card-body">
-                    <div class="card-meta">
-                        <span class="rarity">@user.Email</span>
-                        <span class="price">Budget: @user.Budget.ToString("C")</span>
-                        <span>Collections: @user.Collections.Count</span>
-                        <span class="rarity">Joined: @user.RegistrationDate.ToString("MMM dd, yyyy")</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a class="card-link primary" asp-action="Details" asp-route-id="@user.Id">View Profile →</a>
+<div class="form-inline mb-3">
+    <input id="users-search" class="form-control" placeholder="Search trainers..." />
+</div>
+
+<div class="users-grid">
+    @foreach (var user in Model)
+    {
+        <div class="card entity-card">
+            <div class="card-header">
+                <h3>@user.Username</h3>
+                <span class="status-badge status-active">Trainer</span>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="rarity">@user.Email</span>
+                    <span class="price">Budget: @user.Budget.ToString("C")</span>
+                    <span>Collections: @user.Collections.Count</span>
+                    <span class="rarity">Joined: @user.RegistrationDate.ToString("MMM dd, yyyy")</span>
                 </div>
             </div>
-        }
-    </div>
+            <div class="card-footer">
+                <a class="card-link primary" asp-action="Details" asp-route-id="@user.Id">View Profile →</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        initAjaxSearch({
+            inputSelector: '#users-search',
+            gridSelector: '.users-grid',
+            searchUrl: '/Users/search',
+            renderItem: function (item) {
+                return '<div class="card entity-card">' +
+                    '<div class="card-header"><h3>' + escapeHtml(item.username) + '</h3><span class="status-badge status-active">Trainer</span></div>' +
+                    '<div class="card-body"><div class="card-meta">' +
+                    '<span class="rarity">' + escapeHtml(item.email) + '</span>' +
+                    '<span class="price">Budget: ' + formatCurrency(item.budget) + '</span>' +
+                    '<span>Collections: ' + item.collections + '</span>' +
+                    '<span class="rarity">Joined: ' + formatDate(item.registrationDate) + '</span>' +
+                    '</div></div>' +
+                    '<div class="card-footer"><a class="card-link primary" href="/Users/' + item.id + '">View Profile →</a></div>' +
+                    '</div>';
+            }
+        });
+
+        function escapeHtml(text) { var div = document.createElement('div'); div.appendChild(document.createTextNode(text || '')); return div.innerHTML; }
+        function formatCurrency(value) { return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(value || 0); }
+        function formatDate(value) { return new Date(value).toLocaleDateString(); }
+    </script>
+}

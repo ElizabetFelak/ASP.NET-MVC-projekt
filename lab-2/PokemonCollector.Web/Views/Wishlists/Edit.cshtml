@@ -1,0 +1,17 @@
+@model PokemonCollector.Web.Models.Wishlist
+@{
+    ViewData["Title"] = "Edit Wishlist Item";
+}
+
+<h1>Edit Wishlist Item</h1>
+
+<form asp-action="EditPost" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @await Html.PartialAsync("_CreateOrEdit", Model)
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

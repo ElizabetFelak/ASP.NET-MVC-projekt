@@ -1,0 +1,43 @@
+@model PokemonCollector.Web.Models.PokemonCard
+
+<div class="form-group">
+    <label asp-for="CardName" class="control-label"></label>
+    <input asp-for="CardName" class="form-control" />
+    <span asp-validation-for="CardName" class="text-danger"></span>
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-4">
+        <label asp-for="PokemonNumber" class="control-label"></label>
+        <input asp-for="PokemonNumber" class="form-control" />
+        <span asp-validation-for="PokemonNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-4">
+        <label asp-for="Type" class="control-label"></label>
+        <select asp-for="Type" asp-items="Html.GetEnumSelectList<PokemonCollector.Web.Models.PokemonType>()" class="form-control"></select>
+        <span asp-validation-for="Type" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-4">
+        <label asp-for="Rarity" class="control-label"></label>
+        <select asp-for="Rarity" asp-items="Html.GetEnumSelectList<PokemonCollector.Web.Models.CardRarity>()" class="form-control"></select>
+        <span asp-validation-for="Rarity" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label asp-for="MarketPrice" class="control-label"></label>
+    <input asp-for="MarketPrice" class="form-control" />
+    <span asp-validation-for="MarketPrice" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label class="control-label">Card Set</label>
+    @{ ViewData["FieldName"] = "CardSetId"; ViewData["SelectedId"] = Model?.CardSetId; ViewData["SelectedText"] = ViewData["SelectedCardSetText"] as string ?? string.Empty; }
+    @await Html.PartialAsync("_AutocompleteCardSet")
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-link">View</a>
+</div>

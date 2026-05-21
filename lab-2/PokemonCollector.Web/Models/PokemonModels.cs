@@ -45,11 +45,23 @@ public class User
 {
     [Key]
     public int Id { get; set; }
+    [Required]
+    [StringLength(100)]
     public string Username { get; set; } = string.Empty;
+    [Required]
+    [EmailAddress]
+    [StringLength(200)]
     public string Email { get; set; } = string.Empty;
+    [Required]
+    [DataType(DataType.DateTime)]
     public DateTime RegistrationDate { get; set; }
+    [Range(typeof(decimal), "0", "1000000000")]
     public decimal Budget { get; set; }
+    [Phone]
+    [StringLength(50)]
     public string PhoneNumber { get; set; } = string.Empty;
+    [Required]
+    [StringLength(250)]
     public string Address { get; set; } = string.Empty;
     
     // 1-N veza: User -> Collections
@@ -69,11 +81,23 @@ public class CardSet
 {
     [Key]
     public int Id { get; set; }
+    [Required]
+    [StringLength(200)]
     public string SetName { get; set; } = string.Empty;
+
+    [Required]
+    [DataType(DataType.DateTime)]
     public DateTime ReleaseDate { get; set; }
+    [Range(1, 10000)]
     public int TotalCards { get; set; }
+    [Required]
+    [StringLength(200)]
     public string Publisher { get; set; } = string.Empty;
+    [Required]
+    [StringLength(20)]
     public string SetSymbol { get; set; } = string.Empty;
+    [Required]
+    [StringLength(20)]
     public string SetCode { get; set; } = string.Empty;
     
     // 1-N veza: CardSet -> PokemonCard
@@ -84,15 +108,22 @@ public class PokemonCard
 {
     [Key]
     public int Id { get; set; }
+    [Required]
+    [StringLength(200)]
     public string CardName { get; set; } = string.Empty;
+    [Range(1, 10000)]
     public int PokemonNumber { get; set; }
     public PokemonType Type { get; set; }
     public CardRarity Rarity { get; set; }
+    [Range(typeof(decimal), "0", "1000000000")]
     public decimal MarketPrice { get; set; }
     
     [ForeignKey(nameof(CardSet))]
+    [Range(1, int.MaxValue)]
     public int CardSetId { get; set; }
     
+    [Required]
+    [DataType(DataType.DateTime)]
     public DateTime CreatedDate { get; set; }
     
     // N-1 veza prema CardSet
@@ -111,11 +142,18 @@ public class Collection
     public int Id { get; set; }
     
     [ForeignKey(nameof(User))]
+    [Range(1, int.MaxValue)]
     public int UserId { get; set; }
     
+    [Required]
+    [StringLength(200)]
     public string CollectionName { get; set; } = string.Empty;
+    [Required]
+    [DataType(DataType.DateTime)]
     public DateTime CreatedDate { get; set; }
+    [Range(typeof(decimal), "0", "1000000000")]
     public decimal CollectionValue { get; set; }
+    [StringLength(2000)]
     public string Description { get; set; } = string.Empty;
     public bool IsPublic { get; set; }
     
@@ -132,14 +170,20 @@ public class CardInstance
     public int Id { get; set; }
     
     [ForeignKey(nameof(Collection))]
+    [Range(1, int.MaxValue)]
     public int CollectionId { get; set; }
     
     [ForeignKey(nameof(PokemonCard))]
+    [Range(1, int.MaxValue)]
     public int PokemonCardId { get; set; }
     
     public CardCondition Condition { get; set; }
+    [Range(1, 100000)]
     public int Quantity { get; set; }
+    [Required]
+    [DataType(DataType.DateTime)]
     public DateTime AcquisitionDate { get; set; }
+    [Range(typeof(decimal), "0", "1000000000")]
     public decimal CurrentValue { get; set; }
     
     // N-1 veza prema Collection
@@ -158,16 +202,24 @@ public class Trade
     public int Id { get; set; }
     
     [ForeignKey(nameof(Sender))]
+    [Range(1, int.MaxValue)]
     public int SenderId { get; set; }
     
     [ForeignKey(nameof(Receiver))]
+    [Range(1, int.MaxValue)]
     public int ReceiverId { get; set; }
     
     [ForeignKey(nameof(CardInstance))]
+    [Range(1, int.MaxValue)]
     public int CardInstanceId { get; set; }
     
+    [Required]
+    [DataType(DataType.DateTime)]
     public DateTime TradeDate { get; set; }
+    [Range(typeof(decimal), "0", "1000000000")]
     public decimal TransactionAmount { get; set; }
+    [Required]
+    [StringLength(50)]
     public string TradeStatus { get; set; } = string.Empty;
     
     // N-1 veza prema User kao Sender
@@ -186,13 +238,19 @@ public class Wishlist
     public int Id { get; set; }
     
     [ForeignKey(nameof(User))]
+    [Range(1, int.MaxValue)]
     public int UserId { get; set; }
     
     [ForeignKey(nameof(PokemonCard))]
+    [Range(1, int.MaxValue)]
     public int PokemonCardId { get; set; }
     
+    [Required]
+    [DataType(DataType.DateTime)]
     public DateTime AddedDate { get; set; }
+    [Range(1, 3)]
     public int Priority { get; set; }
+    [Range(typeof(decimal), "0", "1000000000")]
     public decimal MaxPrice { get; set; }
     
     // N-1 veza prema User

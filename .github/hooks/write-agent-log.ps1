@@ -3,8 +3,12 @@ param(
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$PayloadParts
 )
-
-$logPath = 'c:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\agent_log.txt'
+$repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
+$logDir = Join-Path $repoRoot 'lab-4'
+if (-not (Test-Path $logDir)) {
+    New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+}
+$logPath = Join-Path $logDir 'agent_log.txt'
 
 $payload = if ($PayloadParts -and $PayloadParts.Count -gt 0) {
     $PayloadParts -join ' '

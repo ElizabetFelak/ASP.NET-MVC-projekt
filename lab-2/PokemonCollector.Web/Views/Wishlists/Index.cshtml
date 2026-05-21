@@ -3,61 +3,92 @@
     ViewData["Title"] = "Wishlists";
 }
 
-    <section class="page-header">
-        <h1>Wishlist Priorities</h1>
-        <p class="subtitle">@Model.Count() cards on priority lists</p>
-    </section>
+<section class="page-header">
+    <h1>Wishlist Priorities</h1>
+    <p class="subtitle">@Model.Count() cards on priority lists</p>
+</section>
 
-    <div class="card-grid">
-        @foreach (var wishlist in Model)
-        {
-                <div class="card entity-card">
-                    <div class="card-header">
-                        <h3>
-                            @if (wishlist.PokemonCard is not null)
-                            {
-                                <a class="card-link" asp-controller="PokemonCards" asp-action="Details" asp-route-id="@wishlist.PokemonCard.Id">@wishlist.PokemonCard.CardName</a>
-                            }
-                            else
-                            {
-                                <span>Unknown Card</span>
-                            }
-                        </h3>
-                        <span class="status-badge @(wishlist.Priority == 1 ? "status-active" : (wishlist.Priority == 2 ? "status-pending" : "status-archived"))">
-                            @if (wishlist.Priority == 1)
-                            {
-                                <text>High</text>
-                            }
-                            else if (wishlist.Priority == 2)
-                            {
-                                <text>Medium</text>
-                            }
-                            else
-                            {
-                                <text>Low</text>
-                            }
+<div class="form-inline mb-3">
+    <input id="wishlists-search" class="form-control" placeholder="Search wishlists..." />
+</div>
+
+<div class="card-grid">
+    @foreach (var wishlist in Model)
+    {
+            <div class="card entity-card">
+                <div class="card-header">
+                    <h3>
+                        @if (wishlist.PokemonCard is not null)
+                        {
+                            <a class="card-link" asp-controller="PokemonCards" asp-action="Details" asp-route-id="@wishlist.PokemonCard.Id">@wishlist.PokemonCard.CardName</a>
+                        }
+                        else
+                        {
+                            <span>Unknown Card</span>
+                        }
+                    </h3>
+                    <span class="status-badge @(wishlist.Priority == 1 ? "status-active" : (wishlist.Priority == 2 ? "status-pending" : "status-archived"))">
+                        @if (wishlist.Priority == 1)
+                        {
+                            <text>High</text>
+                        }
+                        else if (wishlist.Priority == 2)
+                        {
+                            <text>Medium</text>
+                        }
+                        else
+                        {
+                            <text>Low</text>
+                        }
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">
+                @if (wishlist.User is not null)
+                {
+                        <span>
+                            Collector: 
+                            <a class="inline-link" asp-controller="Users" asp-action="Details" asp-route-id="@wishlist.User.Id">@wishlist.User.Username</a>
                         </span>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-meta">
-                    @if (wishlist.User is not null)
-                    {
-                            <span>
-                                Collector: 
-                                <a class="inline-link" asp-controller="Users" asp-action="Details" asp-route-id="@wishlist.User.Id">@wishlist.User.Username</a>
-                            </span>
-                    }
-                    else
-                    {
-                            <span>Collector: Unknown</span>
-                    }
-                            <span class="price">Max Budget: @wishlist.MaxPrice.ToString("C")</span>
-                            <span class="rarity">Added: @wishlist.AddedDate.ToString("MMM dd, yyyy")</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a class="card-link primary" asp-action="Details" asp-route-id="@wishlist.Id">View Wishlist →</a>
+                }
+                else
+                {
+                        <span>Collector: Unknown</span>
+                }
+                        <span class="price">Max Budget: @wishlist.MaxPrice.ToString("C")</span>
+                        <span class="rarity">Added: @wishlist.AddedDate.ToString("MMM dd, yyyy")</span>
                     </div>
                 </div>
-        }
+                <div class="card-footer">
+                    <a class="card-link primary" asp-action="Details" asp-route-id="@wishlist.Id">View Wishlist →</a>
+                </div>
+            </div>
+    }
 </div>
+
+@section Scripts {
+    <script>
+        initAjaxSearch({
+            inputSelector: '#wishlists-search',
+            gridSelector: '.card-grid',
+            searchUrl: '/Wishlists/search',
+            renderItem: function (item) {
+                var priorityLabel = item.priority === 1 ? 'High' : (item.priority === 2 ? 'Medium' : 'Low');
+                var badgeClass = item.priority === 1 ? 'status-active' : (item.priority === 2 ? 'status-pending' : 'status-archived');
+                return '<div class="card entity-card">' +
+                    '<div class="card-header"><h3>' + escapeHtml(item.cardName || 'Unknown Card') + '</h3><span class="status-badge ' + badgeClass + '">' + priorityLabel + '</span></div>' +
+                    '<div class="card-body"><div class="card-meta">' +
+                    '<span>Collector: ' + escapeHtml(item.userName || 'Unknown') + '</span>' +
+                    '<span class="price">Max Budget: ' + formatCurrency(item.maxPrice) + '</span>' +
+                    '<span class="rarity">Added: ' + formatDate(item.addedDate) + '</span>' +
+                    '</div></div>' +
+                    '<div class="card-footer"><a class="card-link primary" href="/Wishlists/' + item.id + '">View Wishlist →</a></div>' +
+                    '</div>';
+            }
+        });
+
+        function escapeHtml(text) { var div = document.createElement('div'); div.appendChild(document.createTextNode(text || '')); return div.innerHTML; }
+        function formatCurrency(value) { return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(value || 0); }
+        function formatDate(value) { return new Date(value).toLocaleDateString(); }
+    </script>
+}

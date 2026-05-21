@@ -1,0 +1,89 @@
+@{
+    var fieldName = ViewData["FieldName"] as string ?? "CardSetId";
+    var selectedId = ViewData["SelectedId"] as int?;
+    var selectedText = ViewData["SelectedText"] as string ?? string.Empty;
+
+    // Preserve typed value after post-back if controller didn't provide SelectedText
+    if (string.IsNullOrEmpty(selectedText) && Context.Request.HasFormContentType)
+    {
+        var key = fieldName + "_text";
+        if (Context.Request.Form.ContainsKey(key))
+        {
+            selectedText = Context.Request.Form[key].ToString();
+        }
+    }
+}
+
+<div class="autocomplete-cardset" style="position:relative;">
+    <input autocomplete="off" type="text" id="@(fieldName + "_text")" class="form-control cs-autocomplete" placeholder="Search card set..." value="@selectedText" />
+    <input type="hidden" name="@fieldName" id="@fieldName" value="@(selectedId?.ToString() ?? "")" />
+    <button type="button" class="btn btn-sm btn-light cs-clear" title="Clear" style="position:absolute; right:6px; top:6px; z-index:1100;">×</button>
+    <ul class="cs-suggestions list-group" style="position:absolute; z-index:1000; display:none; left:0; right:0; max-height:200px; overflow:auto; margin-top:4px;"></ul>
+</div>
+
+<script>
+    (function(){
+        var input = document.getElementById('@(fieldName + "_text")');
+        var hidden = document.getElementById('@fieldName');
+        var container = input.parentElement;
+        var sugg = container.querySelector('.cs-suggestions');
+        var clearBtn = container.querySelector('.cs-clear');
+        var debounce = null;
+
+        function showSuggestions(items){
+            sugg.innerHTML = '';
+            if (!items || items.length === 0){
+                var li = document.createElement('li');
+                li.className = 'list-group-item disabled';
+                li.textContent = 'No results';
+                sugg.appendChild(li);
+                sugg.style.display = 'block';
+                return;
+            }
+
+            items.forEach(function(it){
+                var li = document.createElement('li');
+                li.className = 'list-group-item list-group-item-action';
+                li.textContent = it.text;
+                li.dataset.id = it.id;
+                li.addEventListener('click', function(){
+                    input.value = it.text;
+                    hidden.value = it.id;
+                    sugg.style.display = 'none';
+                });
+                sugg.appendChild(li);
+            });
+            sugg.style.display = 'block';
+        }
+
+        input.addEventListener('input', function(){
+            clearTimeout(debounce);
+            debounce = setTimeout(function(){
+                var q = encodeURIComponent(input.value || '');
+                // show searching state
+                sugg.innerHTML = '<li class="list-group-item">Searching...</li>';
+                sugg.style.display = 'block';
+                fetch('/setovi/search?q=' + q)
+                    .then(r => r.json())
+                    .then(items => showSuggestions(items))
+                    .catch(function(){
+                        sugg.innerHTML = '<li class="list-group-item disabled">Search failed</li>';
+                        sugg.style.display = 'block';
+                    });
+            }, 250);
+        });
+
+        clearBtn.addEventListener('click', function(){
+            input.value = '';
+            hidden.value = '';
+            sugg.style.display = 'none';
+            input.focus();
+        });
+
+        document.addEventListener('click', function(e){
+            if (!container.contains(e.target)){
+                sugg.style.display='none';
+            }
+        });
+    })();
+</script>

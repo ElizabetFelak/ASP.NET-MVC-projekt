@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokemon Cards - Pokedex Trade Terminal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/site.css?v=_ty-sug4F0z8anl7mMALpVqbwZOFrU1BSaYOlYvVm5Y" />
+    <link rel="stylesheet" href="/css/pokemon-theme.css?v=Ztk3KmFnZdK2NNRj5wwx0jQoSpeuM9YDzCXPd0lKq_0" />
+    <link rel="stylesheet" href="/css/components.css?v=Y7fs7ve3r1HbqACZhgTR6U0LSohfs34ZnP3i2pROl8Y" />
+    <link rel="stylesheet" href="/css/index-pages.css?v=oSkCj_CKAYJSnhPhk1435AjL_a4jhhAVAXiklwpuG-4" />
+    <link rel="stylesheet" href="/css/details-pages.css?v=Immu80MVFX7Wt8D3VkcwKIOfIVVBPTjlnBq6hfhAovo" />
+    <link rel="stylesheet" href="/css/entities.css?v=-ML5ALybTneWtKe9rZL9IHevzub5Temfg0V5X4bc70c" />
+    <link rel="stylesheet" href="/css/home.css?v=SCECgk8slMhDQk66E-j2Cq2jt2YkQJ4JJjN_oNFIdJc" />
+    <link rel="stylesheet" href="/PokemonCollector.Web.styles.css?v=W5EYcC_mFd6boqvw1k-3Sf56HuE0SvRaIzCRg-glnu0" />
+</head>
+<body>
+    <header b-3qk6kwwnw9 class="site-header">
+        <div b-3qk6kwwnw9 class="shell top-shell">
+            <a class="brand" href="/pocetna/pocetna">
+                <span b-3qk6kwwnw9 class="brand-mark">⚡</span>
+                <span b-3qk6kwwnw9 class="brand-text">Collector Hub</span>
+            </a>
+            <nav b-3qk6kwwnw9 class="main-nav pokemon-nav" aria-label="Main navigation">
+                <a href="/pocetna/pocetna">Dashboard</a>
+                <a href="/Users">Trainers</a>
+                <a href="/setovi/index">Sets</a>
+                <a href="/karte/index">Pokédex</a>
+                <a href="/kolekcije/index">Collections</a>
+                <a href="/CardInstances">Inventory</a>
+                <a href="/Trades">Trades</a>
+                <a href="/Wishlists">Wishlist</a>
+            </nav>
+        </div>
+        <div b-3qk6kwwnw9 class="shell breadcrumb-shell">
+            
+    <nav class="breadcrumbs pokemon-breadcrumbs" aria-label="Breadcrumb">
+                <a class="crumb" href="/pocetna/pocetna">Home</a>
+                <span class="crumb-sep">→</span>
+                <span class="crumb active">Pokemon Cards</span>
+    </nav>
+
+        </div>
+    </header>
+
+    <div b-3qk6kwwnw9 class="shell page-shell">
+        <main b-3qk6kwwnw9 role="main">
+            
+<section class="page-header">
+    <h1>Pokédex Card Catalog</h1>
+    <p class="subtitle">5 Pokemon cards in circulation</p>
+</section>
+
+<div class="list-controls mb-3">
+    <a class="btn btn-primary" href="/karte/create">Create new card</a>
+    <input id="card-search" type="text" class="form-control" placeholder="Search cards by name..." style="max-width:320px; display:inline-block; margin-left:12px;" />
+    <span id="search-status" class="muted" style="margin-left:8px;"></span>
+</div>
+
+<div id="cards-container">
+    
+<div class="pokemon-cards-grid">
+        <div class="card entity-card type-fire">
+            <div class="card-header">
+                <h3>Charizard</h3>
+                <span class="card-number">#6</span>
+            </div>
+            <div class="card-body">
+                <div class="type-badge badge-fire">
+                    Fire
+                </div>
+                <div class="card-meta">
+                    <span class="rarity">Rarity: SecretRare</span>
+                    <span class="price">&#xA3;1,200.00</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                    <a class="card-link" href="/setovi/1/pregledaj">Base Set</a>
+                <a class="card-link primary" href="/karte/detalji/1">View →</a>
+            </div>
+        </div>
+        <div class="card entity-card type-water">
+            <div class="card-header">
+                <h3>Blastoise</h3>
+                <span class="card-number">#9</span>
+            </div>
+            <div class="card-body">
+                <div class="type-badge badge-water">
+                    Water
+                </div>
+                <div class="card-meta">
+                    <span class="rarity">Rarity: UltraRare</span>
+                    <span class="price">&#xA3;780.00</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                    <a class="card-link" href="/setovi/1/pregledaj">Base Set</a>
+                <a class="card-link primary" href="/karte/detalji/2">View →</a>
+            </div>
+        </div>
+        <div class="card entity-card type-electric">
+            <div class="card-header">
+                <h3>Pikachu</h3>
+                <span class="card-number">#25</span>
+            </div>
+            <div class="card-body">
+                <div class="type-badge badge-electric">
+                    Electric
+                </div>
+                <div class="card-meta">
+                    <span class="rarity">Rarity: Rare</span>
+                    <span class="price">&#xA3;320.00</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                    <a class="card-link" href="/setovi/2/pregledaj">Jungle</a>
+                <a class="card-link primary" href="/karte/detalji/3">View →</a>
+            </div>
+        </div>
+        <div class="card entity-card type-psychic">
+            <div class="card-header">
+                <h3>Gengar</h3>
+                <span class="card-number">#94</span>
+            </div>
+            <div class="card-body">
+                <div class="type-badge badge-psychic">
+                    Psychic
+                </div>
+                <div class="card-meta">
+                    <span class="rarity">Rarity: Rare</span>
+                    <span class="price">&#xA3;290.00</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                    <a class="card-link" href="/setovi/3/pregledaj">Fossil</a>
+                <a class="card-link primary" href="/karte/detalji/4">View →</a>
+            </div>
+        </div>
+        <div class="card entity-card type-psychic">
+            <div class="card-header">
+                <h3>Mew</h3>
+                <span class="card-number">#151</span>
+            </div>
+            <div class="card-body">
+                <div class="type-badge badge-psychic">
+                    Psychic
+                </div>
+                <div class="card-meta">
+                    <span class="rarity">Rarity: Promo</span>
+                    <span class="price">&#xA3;540.00</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                    <a class="card-link" href="/setovi/2/pregledaj">Jungle</a>
+                <a class="card-link primary" href="/karte/detalji/5">View →</a>
+            </div>
+        </div>
+</div>
+
+</div>
+
+
+        </main>
+    </div>
+
+    <footer b-3qk6kwwnw9 class="site-footer">
+        <div b-3qk6kwwnw9 class="shell footer-shell">
+            <span b-3qk6kwwnw9>Lab 2 HTML Binding</span>
+            <span b-3qk6kwwnw9>ASP.NET MVC Pokemon Collector</span>
+            <span b-3qk6kwwnw9>Designed with 🔥 and ⚡</span>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo"></script>
+    
+    <script>
+        $(function(){
+            var timeout = null;
+            $('#card-search').on('input', function(){
+                clearTimeout(timeout);
+                var q = $(this).val();
+                $('#search-status').text('Searching...');
+                timeout = setTimeout(function(){
+                    $.get('/karte/search', { q: q }).done(function(html){
+                        $('#cards-container').html(html);
+                        $('#search-status').text('');
+                    }).fail(function(){
+                        $('#search-status').text('Error');
+                    });
+                }, 300);
+            });
+        });
+    </script>
+
+</body>
+</html>

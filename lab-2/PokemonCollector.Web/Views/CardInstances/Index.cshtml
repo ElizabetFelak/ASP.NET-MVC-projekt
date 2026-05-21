@@ -3,43 +3,72 @@
     ViewData["Title"] = "Card Instances";
 }
 
-    <section class="page-header">
-        <h1>Card Inventory</h1>
-        <p class="subtitle">@Model.Count() card instances cataloged</p>
-    </section>
+<section class="page-header">
+    <h1>Card Inventory</h1>
+    <p class="subtitle">@Model.Count() card instances cataloged</p>
+</section>
 
-    <div class="card-grid">
-        @foreach (var instance in Model)
-        {
-            <div class="card entity-card">
-                <div class="card-header">
-                    <h3>
-                        @if (instance.PokemonCard != null)
-                        {
-                            <a class="card-link" asp-controller="PokemonCards" asp-action="Details" asp-route-id="@instance.PokemonCard.Id">@instance.PokemonCard.CardName</a>
-                        }
-                    </h3>
-                    <span class="card-number">#@instance.Id</span>
+<div class="form-inline mb-3">
+    <input id="card-instances-search" class="form-control" placeholder="Search inventory..." />
+</div>
+
+<div class="card-grid">
+    @foreach (var instance in Model)
+    {
+        <div class="card entity-card">
+            <div class="card-header">
+                <h3>
+                    @if (instance.PokemonCard != null)
+                    {
+                        <a class="card-link" asp-controller="PokemonCards" asp-action="Details" asp-route-id="@instance.PokemonCard.Id">@instance.PokemonCard.CardName</a>
+                    }
+                </h3>
+                <span class="card-number">#@instance.Id</span>
+            </div>
+            <div class="card-body">
+                <div class="type-badge badge-@(instance.Condition == CardCondition.Mint || instance.Condition == CardCondition.NearMint ? "electric" : "fighting")">
+                    @instance.Condition
                 </div>
-                <div class="card-body">
-                    <div class="type-badge badge-@(instance.Condition == CardCondition.Mint || instance.Condition == CardCondition.NearMint ? "electric" : "fighting")">
-                        @instance.Condition
-                    </div>
-                    <div class="card-meta">
-                        @if (instance.Collection != null)
-                        {
-                            <span>
-                                In: 
-                                <a class="inline-link" asp-controller="Collections" asp-action="Details" asp-route-id="@instance.Collection.Id">@instance.Collection.CollectionName</a>
-                            </span>
-                        }
-                        <span class="rarity">Qty: @instance.Quantity</span>
-                        <span class="price">@instance.CurrentValue.ToString("C")</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a class="card-link primary" asp-action="Details" asp-route-id="@instance.Id">View Details →</a>
+                <div class="card-meta">
+                    @if (instance.Collection != null)
+                    {
+                        <span>
+                            In: 
+                            <a class="inline-link" asp-controller="Collections" asp-action="Details" asp-route-id="@instance.Collection.Id">@instance.Collection.CollectionName</a>
+                        </span>
+                    }
+                    <span class="rarity">Qty: @instance.Quantity</span>
+                    <span class="price">@instance.CurrentValue.ToString("C")</span>
                 </div>
             </div>
-        }
-    </div>
+            <div class="card-footer">
+                <a class="card-link primary" asp-action="Details" asp-route-id="@instance.Id">View Details →</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        initAjaxSearch({
+            inputSelector: '#card-instances-search',
+            gridSelector: '.card-grid',
+            searchUrl: '/CardInstances/search',
+            renderItem: function (item) {
+                var badgeClass = item.condition === 'Mint' || item.condition === 'NearMint' ? 'electric' : 'fighting';
+                return '<div class="card entity-card">' +
+                    '<div class="card-header"><h3>' + escapeHtml(item.pokemonCardName || '') + '</h3><span class="card-number">#' + item.id + '</span></div>' +
+                    '<div class="card-body"><div class="type-badge badge-' + badgeClass.toLowerCase() + '">' + escapeHtml(item.condition) + '</div><div class="card-meta">' +
+                    (item.collectionName ? '<span>In: <a class="inline-link" href="/kolekcije/' + item.id + '">' + escapeHtml(item.collectionName) + '</a></span>' : '') +
+                    '<span class="rarity">Qty: ' + item.quantity + '</span>' +
+                    '<span class="price">' + formatCurrency(item.currentValue) + '</span>' +
+                    '</div></div>' +
+                    '<div class="card-footer"><a class="card-link primary" href="/CardInstances/' + item.id + '">View Details →</a></div>' +
+                    '</div>';
+            }
+        });
+
+        function escapeHtml(text) { var div = document.createElement('div'); div.appendChild(document.createTextNode(text || '')); return div.innerHTML; }
+        function formatCurrency(value) { return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(value || 0); }
+    </script>
+}

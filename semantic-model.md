@@ -153,79 +153,73 @@ Projekt koristi **Entity Framework Core** s SQL Server bazom. Baza sadrži 7 gla
 ## Dijagram Relacija (ER Diagram)
 
 ```
-┌─────────────┐
-│    User     │
-├─────────────┤
-│ Id (PK)     │
-│ Username    │
-│ Email       │◄──┐
-│ Budget      │   │
-│ Phone       │   ├──┬──────────────────┐
-│ Address     │   │  │                  │
-└─────────────┘   │  │                  │
-       ▲          │  │                  │
-       │          │  │                  │
-     1-N        N-1 │ │              N-1
-       │          │  │                  │
-       │          ▼  │                  ▼
-┌──────────────┐  │  │         ┌─────────────┐
-│ Collection   │◄─┘  │         │   Trade     │
-├──────────────┤     │         ├─────────────┤
-│ Id (PK)      │     ├────────►│ Id (PK)     │
-│ UserId (FK)  │     │         │ SenderId    │
-│ Name         │   N-1       │ ReceiverId  │
-│ Value        │     │       │ CardInstanceId
-│ Description  │     │       │ TradeDate   │
-│ IsPublic     │     │       │ Amount      │
-└──────────────┘     │       │ Status      │
-       │              │       └─────────────┘
-       │              │              ▲
-     1-N            N-1              │
-       │              │             N-1
-       │              │              │
-       ▼              ▼              │
- ┌────────────┐  ┌──────────────┐   │
- │CardInstance├──►│CardInstance  │───┘
- ├────────────┤  ├──────────────┤
- │ Id (PK)    │  │ Id (PK)      │
- │ Collection │  │ CollectionId │
- │ PokemonCard│  │ PokemonCardId│
- │ Condition  │  │ Condition    │
- │ Quantity   │  │ Quantity     │
- │ AcqDate    │  │ AcqDate      │
- │ Value      │  │ Value        │
- └────────────┘  └──────────────┘
-       ▲                 │
-       │               N-1
-      N-1                │
-       │                 │
-       │          ┌──────────────┐
-       │          │ PokemonCard  │
-       │          ├──────────────┤
-       │          │ Id (PK)      │
-       │          │ CardName     │
-       └──────────┤ PokemonNumber│
-                  │ Type         │
-                  │ Rarity       │
-                  │ Price        │
-                  │ CardSetId(FK)│
-                  │ CreatedDate  │
-                  └──────────────┘
-                         ▲
-                        N-1
-                         │
-                  ┌──────────────┐
-                  │   CardSet    │
-                  ├──────────────┤
-                  │ Id (PK)      │
-                  │ SetName      │
-                  │ ReleaseDate  │
-                  │ TotalCards   │
-                  │ Publisher    │
-                  │ SetSymbol    │
-                  │ SetCode      │
-                  └──────────────┘
-```
+                            ┌─────────────┐
+                            │    User     │
+                            ├─────────────┤
+                            │ Id (PK)     │
+                            │ Username    │
+                            │ Email       │
+                            │ Budget      │
+                            │ Phone       │
+                            │ Address     │
+                            │ Collections (nav) │
+                            │ Wishlist (nav)    │
+                            │ TradesSent (nav)  │
+                            │ TradesReceived(nav)│
+                            └─────────────┘
+
+┌─────────────────────────┐           ┌──────────────┐
+│      Collection         │           │   Wishlist   │
+├─────────────────────────┤           ├──────────────┤
+│ Id (PK)                 │           │ Id (PK)      │
+│ UserId (FK)             │           │ UserId (FK)  │
+│ CollectionName          │           │ PokemonCardId│
+│ CreatedDate             │           │ AddedDate    │
+│ CollectionValue         │           │ Priority     │
+│ Description             │           │ MaxPrice     │
+│ IsPublic                │           │ (nav: User)  │
+│ (nav: User)             │           │ (nav: PokemonCard)
+│ (nav: CardInstances)    │           └──────────────┘
+└─────────────────────────┘
+
+       ▲                             ▲
+       │ 1..*                        │ 1..*
+       │                             │
+┌─────────────────────────┐    ┌─────────────────────────┐
+│      CardInstance       │    │      PokemonCard        │
+├─────────────────────────┤    ├─────────────────────────┤
+│ Id (PK)                 │    │ Id (PK)                 │
+│ CollectionId (FK)       │    │ CardName                │
+│ (nav: Collection)       │    │ PokemonNumber           │
+│ PokemonCardId (FK)      │    │ Type                    │
+│ (nav: PokemonCard)      │    │ Rarity                  │
+│ Condition               │    │ MarketPrice             │
+│ Quantity                │    │ CardSetId (FK)          │
+│ AcquisitionDate         │    │ (nav: CardSet)          │
+│ CurrentValue            │    │ (nav: CardInstances)    │
+│ (nav: Trades)           │    │ CreatedDate             │
+└─────────────────────────┘    └─────────────────────────┘
+
+           ▲                         ▲
+           │                         │
+          N-1                        N-1
+           │                         │
+      ┌──────────────┐           ┌──────────────┐
+      │    Trade     │           │   CardSet    │
+      ├──────────────┤           ├──────────────┤
+      │ Id (PK)      │           │ Id (PK)      │
+      │ SenderId (FK)│           │ SetName      │
+      │ (nav: Sender)│           │ ReleaseDate  │
+      │ ReceiverId(FK)│          │ TotalCards   │
+      │ (nav: Receiver)│         │ Publisher    │
+      │ CardInstanceId(FK)│      │ SetSymbol    │
+      │ (nav: CardInstance)│     │ SetCode      │
+      │ TradeDate     │          └──────────────┘
+      │ TransactionAmount│
+      │ TradeStatus   │
+      └──────────────┘
+
+``` 
 
 ---
 

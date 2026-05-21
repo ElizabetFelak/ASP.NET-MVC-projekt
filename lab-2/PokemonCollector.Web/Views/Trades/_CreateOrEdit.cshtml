@@ -1,0 +1,43 @@
+@model PokemonCollector.Web.Models.Trade
+
+<div class="form-group">
+    <label asp-for="SenderId" class="control-label"></label>
+    <input asp-for="SenderId" class="form-control" />
+    <span asp-validation-for="SenderId" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="ReceiverId" class="control-label"></label>
+    <input asp-for="ReceiverId" class="form-control" />
+    <span asp-validation-for="ReceiverId" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="CardInstanceId" class="control-label"></label>
+    <input asp-for="CardInstanceId" class="form-control" />
+    <span asp-validation-for="CardInstanceId" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="TradeDate" class="control-label"></label>
+    @{ ViewData["FieldName"] = "TradeDate"; ViewData["Value"] = Model?.TradeDate; }
+    @await Html.PartialAsync("_DateTimePicker")
+    <span asp-validation-for="TradeDate" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="TransactionAmount" class="control-label"></label>
+    <input asp-for="TransactionAmount" class="form-control" />
+    <span asp-validation-for="TransactionAmount" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="TradeStatus" class="control-label"></label>
+    <input asp-for="TradeStatus" class="form-control" />
+    <span asp-validation-for="TradeStatus" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>

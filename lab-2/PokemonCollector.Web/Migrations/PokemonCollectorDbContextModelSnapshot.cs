@@ -137,7 +137,8 @@ namespace PokemonCollector.Web.Migrations
 
                     b.Property<string>("CardName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int>("CardSetId")
                         .HasColumnType("int");

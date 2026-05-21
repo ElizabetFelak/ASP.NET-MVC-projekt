@@ -1,0 +1,43 @@
+@model PokemonCollector.Web.Models.CardInstance
+
+<div class="form-group">
+    <label asp-for="CollectionId" class="control-label"></label>
+    <input asp-for="CollectionId" class="form-control" />
+    <span asp-validation-for="CollectionId" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="PokemonCardId" class="control-label"></label>
+    <input asp-for="PokemonCardId" class="form-control" />
+    <span asp-validation-for="PokemonCardId" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Condition" class="control-label"></label>
+    <input asp-for="Condition" class="form-control" />
+    <span asp-validation-for="Condition" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Quantity" class="control-label"></label>
+    <input asp-for="Quantity" class="form-control" />
+    <span asp-validation-for="Quantity" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="AcquisitionDate" class="control-label"></label>
+    @{ ViewData["FieldName"] = "AcquisitionDate"; ViewData["Value"] = Model?.AcquisitionDate; }
+    @await Html.PartialAsync("_DateTimePicker")
+    <span asp-validation-for="AcquisitionDate" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="CurrentValue" class="control-label"></label>
+    <input asp-for="CurrentValue" class="form-control" />
+    <span asp-validation-for="CurrentValue" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>

@@ -1,0 +1,24 @@
+@{
+    var field = ViewData["FieldName"] as string ?? "";
+    var val = ViewData["Value"] as DateTime?;
+    var valueAttr = val.HasValue ? val.Value.ToString("yyyy-MM-dd HH:mm") : string.Empty;
+}
+
+<input type="text" name="@field" value="@valueAttr" class="form-control datetimepicker" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    (function(){
+        var els = document.querySelectorAll('.datetimepicker');
+        els.forEach(function(el){
+            if (el._flatpickr) return;
+            flatpickr(el, {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: true,
+                locale: navigator.language || 'en'
+            });
+        });
+    })();
+</script>

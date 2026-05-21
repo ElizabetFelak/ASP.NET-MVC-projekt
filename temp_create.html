@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Pokemon Card - Pokedex Trade Terminal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/site.css?v=_ty-sug4F0z8anl7mMALpVqbwZOFrU1BSaYOlYvVm5Y" />
+    <link rel="stylesheet" href="/css/pokemon-theme.css?v=Ztk3KmFnZdK2NNRj5wwx0jQoSpeuM9YDzCXPd0lKq_0" />
+    <link rel="stylesheet" href="/css/components.css?v=Y7fs7ve3r1HbqACZhgTR6U0LSohfs34ZnP3i2pROl8Y" />
+    <link rel="stylesheet" href="/css/index-pages.css?v=oSkCj_CKAYJSnhPhk1435AjL_a4jhhAVAXiklwpuG-4" />
+    <link rel="stylesheet" href="/css/details-pages.css?v=Immu80MVFX7Wt8D3VkcwKIOfIVVBPTjlnBq6hfhAovo" />
+    <link rel="stylesheet" href="/css/entities.css?v=-ML5ALybTneWtKe9rZL9IHevzub5Temfg0V5X4bc70c" />
+    <link rel="stylesheet" href="/css/home.css?v=SCECgk8slMhDQk66E-j2Cq2jt2YkQJ4JJjN_oNFIdJc" />
+    <link rel="stylesheet" href="/PokemonCollector.Web.styles.css?v=W5EYcC_mFd6boqvw1k-3Sf56HuE0SvRaIzCRg-glnu0" />
+</head>
+<body>
+    <header b-3qk6kwwnw9 class="site-header">
+        <div b-3qk6kwwnw9 class="shell top-shell">
+            <a class="brand" href="/pocetna/pocetna">
+                <span b-3qk6kwwnw9 class="brand-mark">⚡</span>
+                <span b-3qk6kwwnw9 class="brand-text">Collector Hub</span>
+            </a>
+            <nav b-3qk6kwwnw9 class="main-nav pokemon-nav" aria-label="Main navigation">
+                <a href="/pocetna/pocetna">Dashboard</a>
+                <a href="/Users">Trainers</a>
+                <a href="/setovi/index">Sets</a>
+                <a href="/karte/index">Pokédex</a>
+                <a href="/kolekcije/index">Collections</a>
+                <a href="/CardInstances">Inventory</a>
+                <a href="/Trades">Trades</a>
+                <a href="/Wishlists">Wishlist</a>
+            </nav>
+        </div>
+        <div b-3qk6kwwnw9 class="shell breadcrumb-shell">
+            
+
+        </div>
+    </header>
+
+    <div b-3qk6kwwnw9 class="shell page-shell">
+        <main b-3qk6kwwnw9 role="main">
+            
+<h1>Create Pokemon Card</h1>
+
+<form method="post" class="entity-form" action="/karte/create">
+    
+
+    <div class="form-group">
+        <label for="CardName">CardName</label>
+        <input class="form-control" type="text" data-val="true" data-val-length="The field CardName must be a string with a maximum length of 150." data-val-length-max="150" data-val-required="The CardName field is required." id="CardName" maxlength="150" name="CardName" value="" />
+        <span class="text-danger field-validation-valid" data-valmsg-for="CardName" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-6">
+            <label for="PokemonNumber">PokemonNumber</label>
+            <input class="form-control" type="number" data-val="true" data-val-range="The field PokemonNumber must be between 1 and 9999." data-val-range-max="9999" data-val-range-min="1" data-val-required="The PokemonNumber field is required." id="PokemonNumber" name="PokemonNumber" value="0" /><input name="__Invariant" type="hidden" value="PokemonNumber" />
+            <span class="text-danger field-validation-valid" data-valmsg-for="PokemonNumber" data-valmsg-replace="true"></span>
+        </div>
+        <div class="form-group col-6">
+            <label for="Type">Type</label>
+            <select class="form-control" data-val="true" data-val-required="The Type field is required." id="Type" name="Type"><option selected="selected" value="0">Colorless</option>
+<option value="1">Fire</option>
+<option value="2">Water</option>
+<option value="3">Electric</option>
+<option value="4">Grass</option>
+<option value="5">Fighting</option>
+<option value="6">Psychic</option>
+<option value="7">Dragon</option>
+<option value="8">Dark</option>
+<option value="9">Steel</option>
+<option value="10">Fairy</option>
+</select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-6">
+            <label for="Rarity">Rarity</label>
+            <select class="form-control" data-val="true" data-val-required="The Rarity field is required." id="Rarity" name="Rarity"><option selected="selected" value="0">Common</option>
+<option value="1">Uncommon</option>
+<option value="2">Rare</option>
+<option value="3">UltraRare</option>
+<option value="4">SecretRare</option>
+<option value="5">Promo</option>
+</select>
+        </div>
+        <div class="form-group col-6">
+            <label for="MarketPrice">MarketPrice</label>
+            <input class="form-control" type="text" data-val="true" data-val-number="The field MarketPrice must be a number." data-val-range="The field MarketPrice must be between 0 and 1000000." data-val-range-max="1000000" data-val-range-min="0" data-val-required="The MarketPrice field is required." id="MarketPrice" name="MarketPrice" value="0.00" />
+            <span class="text-danger field-validation-valid" data-valmsg-for="MarketPrice" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Card Set</label>
+        
+<div class="cardset-autocomplete-wrapper">
+    <input type="hidden" name="CardSetId" value="0" class="cardset-id" />
+    <input type="text" class="form-control cardset-autocomplete" value="" placeholder="Search card set..." autocomplete="off" />
+    <div class="cardset-suggestions" style="display:none; position: absolute; background: white; z-index:1000; border: 1px solid #ddd; max-height:200px; overflow:auto;"></div>
+</div>
+
+    </div>
+
+    <div class="form-group">
+        <label>Created Date</label>
+        
+<div class="datetime-picker">
+    <input type="text" name="CreatedDate" class="form-control datetime-input" value="2026-05-20 21:47" />
+    <small class="form-text text-muted">Use format YYYY-MM-DD HH:mm (js helper provided)</small>
+    <div class="datetime-popup" style="display:none; position:absolute; background:#fff; border:1px solid #ccc; padding:8px;"></div>
+</div>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-link" href="/karte/index">Cancel</a>
+<input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kw3r3F93hpFiyRjTCN-p_Pwt7Mm5w3YFR68_YkZh_XCHtD8E_SXpmfOiB-Usq2tdS1QQG5ZRLAG8cgjlOretwCfvntiz7VOpzWy0kVue9MLMhk_GUZb-nbibyexygqgr9lzw0d0aNGE84ZQ43y7Qns" /></form>
+
+
+        </main>
+    </div>
+
+    <footer b-3qk6kwwnw9 class="site-footer">
+        <div b-3qk6kwwnw9 class="shell footer-shell">
+            <span b-3qk6kwwnw9>Lab 2 HTML Binding</span>
+            <span b-3qk6kwwnw9>ASP.NET MVC Pokemon Collector</span>
+            <span b-3qk6kwwnw9>Designed with 🔥 and ⚡</span>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo"></script>
+    
+    <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="/js/pokemoncards.js"></script>
+
+</body>
+</html>

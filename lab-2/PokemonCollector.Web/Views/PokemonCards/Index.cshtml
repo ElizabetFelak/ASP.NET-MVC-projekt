@@ -3,35 +3,65 @@
     ViewData["Title"] = "Pokemon Cards";
 }
 
-    <section class="page-header">
-        <h1>Pokédex Card Catalog</h1>
-        <p class="subtitle">@Model.Count() Pokemon cards in circulation</p>
-    </section>
+<section class="page-header">
+    <h1>Pokédex Card Catalog</h1>
+    <p class="subtitle">@Model.Count() Pokemon cards in circulation</p>
+</section>
 
-    <div class="pokemon-cards-grid">
-        @foreach (var card in Model)
-        {
-            <div class="card entity-card type-@card.Type.ToString().ToLowerInvariant()">
-                <div class="card-header">
-                    <h3>@card.CardName</h3>
-                    <span class="card-number">#@card.PokemonNumber</span>
+<div class="form-inline mb-3">
+    <input id="pokemon-cards-search" class="form-control" placeholder="Search cards..." />
+</div>
+
+<div class="pokemon-cards-grid">
+    @foreach (var card in Model)
+    {
+        <div class="card entity-card type-@card.Type.ToString().ToLowerInvariant()">
+            <div class="card-header">
+                <h3>@card.CardName</h3>
+                <span class="card-number">#@card.PokemonNumber</span>
+            </div>
+            <div class="card-body">
+                <div class="type-badge badge-@card.Type.ToString().ToLowerInvariant()">
+                    @card.Type
                 </div>
-                <div class="card-body">
-                    <div class="type-badge badge-@card.Type.ToString().ToLowerInvariant()">
-                        @card.Type
-                    </div>
-                    <div class="card-meta">
-                        <span class="rarity">Rarity: @card.Rarity</span>
-                        <span class="price">@card.MarketPrice.ToString("C")</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    @if (card.CardSet != null)
-                    {
-                        <a class="card-link" asp-controller="CardSets" asp-action="Details" asp-route-id="@card.CardSet.Id">@card.CardSet.SetName</a>
-                    }
-                    <a class="card-link primary" asp-action="Details" asp-route-id="@card.Id">View →</a>
+                <div class="card-meta">
+                    <span class="rarity">Rarity: @card.Rarity</span>
+                    <span class="price">@card.MarketPrice.ToString("C")</span>
                 </div>
             </div>
-        }
-    </div>
+            <div class="card-footer">
+                @if (card.CardSet != null)
+                {
+                    <a class="card-link" asp-controller="CardSets" asp-action="Details" asp-route-id="@card.CardSet.Id">@card.CardSet.SetName</a>
+                }
+                <a class="card-link primary" asp-action="Details" asp-route-id="@card.Id">View →</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        initAjaxSearch({
+            inputSelector: '#pokemon-cards-search',
+            gridSelector: '.pokemon-cards-grid',
+            searchUrl: '/karte/search',
+            renderItem: function (item) {
+                return '<div class="card entity-card type-' + escapeHtml(item.type.toLowerCase()) + '">' +
+                    '<div class="card-header"><h3>' + escapeHtml(item.cardName) + '</h3><span class="card-number">#' + item.pokemonNumber + '</span></div>' +
+                    '<div class="card-body"><div class="type-badge badge-' + escapeHtml(item.type.toLowerCase()) + '">' + escapeHtml(item.type) + '</div><div class="card-meta">' +
+                    '<span class="rarity">Rarity: ' + escapeHtml(item.rarity) + '</span>' +
+                    '<span class="price">' + formatCurrency(item.marketPrice) + '</span>' +
+                    '</div></div>' +
+                    '<div class="card-footer">' +
+                    (item.setName ? '<a class="card-link" href="/setovi/' + item.id + '">' + escapeHtml(item.setName) + '</a>' : '') +
+                    '<a class="card-link primary" href="/karte/' + item.id + '">View →</a>' +
+                    '</div>' +
+                    '</div>';
+            }
+        });
+
+        function escapeHtml(text) { var div = document.createElement('div'); div.appendChild(document.createTextNode(text || '')); return div.innerHTML; }
+        function formatCurrency(value) { return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(value || 0); }
+    </script>
+}

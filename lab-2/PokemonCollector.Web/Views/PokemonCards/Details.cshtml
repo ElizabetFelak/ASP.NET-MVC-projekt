@@ -37,4 +37,9 @@
     </article>
 </section>
 
+<div class="action-row">
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+</div>
+
 <a class="back-link" asp-action="Index">Back to Pokemon Cards</a>

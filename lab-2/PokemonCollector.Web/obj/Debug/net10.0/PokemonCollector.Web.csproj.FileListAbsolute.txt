@@ -24,7 +24,6 @@ C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\D
 C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\Debug\net10.0\scopedcss\projectbundle\PokemonCollector.Web.bundle.scp.css
 C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\Debug\net10.0\compressed\d64sw3283l-{0}-c3hevo92qx-c3hevo92qx.gz
 C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\Debug\net10.0\compressed\s7ybvlvmgf-{0}-61n19gt1b8-61n19gt1b8.gz
-C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\Debug\net10.0\compressed\sypad8fg1d-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\Debug\net10.0\compressed\ndpfwluan9-{0}-bqjiyaj88i-bqjiyaj88i.gz
 C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\Debug\net10.0\compressed\ithiynigfu-{0}-c2jlpeoesf-c2jlpeoesf.gz
 C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\Debug\net10.0\compressed\csf1g3x7q0-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -208,3 +207,5 @@ C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\bin\D
 C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\bin\Debug\net10.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\bin\Debug\net10.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\Debug\net10.0\PokemonC.FE42DC8E.Up2Date
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\lolno\source\repos\ASP.NET-MVC-projekt\lab-2\PokemonCollector.Web\obj\Debug\net10.0\compressed\sypad8fg1d-{0}-trqdouyrup-trqdouyrup.gz

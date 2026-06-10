@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using PokemonCollector.Web.Data;
 using PokemonCollector.Web.Models;
 using PokemonCollector.Web.ViewModels;
@@ -21,20 +22,32 @@ public class CardSetsController : AppControllerBase
 
     [Route("")]
     [Route("index")]
+    [AllowAnonymous]
     public IActionResult Index()
     {
         SetBreadcrumbs(
             new BreadcrumbItemViewModel { Label = "Home", Controller = "Home", Action = "Index" },
             new BreadcrumbItemViewModel { Label = "Card Sets", IsActive = true });
 
-        return View(_repository.GetCardSets());
+        var sets = _dbContext.CardSets
+            .AsNoTracking()
+            .Include(set => set.Cards)
+            .OrderBy(set => set.SetName)
+            .ToList();
+
+        return View(sets);
     }
 
     [Route("{id:int}")]
     [Route("{id:int}/pregledaj")]
-    public IActionResult Details(int id)
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(int id)
     {
-        var set = _repository.GetCardSetById(id);
+        var set = await _dbContext.CardSets
+            .AsNoTracking()
+            .Include(cardSet => cardSet.Cards)
+            .FirstOrDefaultAsync(cardSet => cardSet.Id == id);
+
         if (set == null)
         {
             return NotFound();
@@ -49,6 +62,7 @@ public class CardSetsController : AppControllerBase
     }
 
     [HttpGet("search")]
+    [AllowAnonymous]
     public IActionResult Search(string q)
     {
         var query = q?.Trim() ?? string.Empty;
@@ -63,6 +77,7 @@ public class CardSetsController : AppControllerBase
     }
 
     [Route("create")]
+    [Authorize]
     public IActionResult Create()
     {
         return View();
@@ -71,6 +86,7 @@ public class CardSetsController : AppControllerBase
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("create")]
+    [Authorize]
     public async Task<IActionResult> Create(CardSet model)
     {
         if (ModelState.IsValid)
@@ -84,6 +100,7 @@ public class CardSetsController : AppControllerBase
     }
 
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> Edit(int id)
     {
         var set = await _dbContext.CardSets.FindAsync(id);
@@ -94,6 +111,7 @@ public class CardSetsController : AppControllerBase
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> EditPost(int id)
     {
         var set = await _dbContext.CardSets.FindAsync(id);
@@ -117,6 +135,7 @@ public class CardSetsController : AppControllerBase
     }
 
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var set = await _dbContext.CardSets.FindAsync(id);
@@ -127,6 +146,7 @@ public class CardSetsController : AppControllerBase
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var set = await _dbContext.CardSets.FindAsync(id);

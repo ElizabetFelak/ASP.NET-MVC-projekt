@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using PokemonCollector.Web.Data;
 using PokemonCollector.Web.Models;
 using PokemonCollector.Web.ViewModels;
@@ -21,16 +22,24 @@ public class PokemonCardsController : AppControllerBase
 
     [Route("")]
     [Route("index")]
+    [AllowAnonymous]
     public IActionResult Index()
     {
         SetBreadcrumbs(
             new BreadcrumbItemViewModel { Label = "Home", Controller = "Home", Action = "Index" },
             new BreadcrumbItemViewModel { Label = "Pokemon Cards", IsActive = true });
 
-        return View(_repository.GetPokemonCards());
+        var cards = _dbContext.PokemonCards
+            .AsNoTracking()
+            .Include(card => card.CardSet)
+            .OrderBy(card => card.CardName)
+            .ToList();
+
+        return View(cards);
     }
 
     [HttpGet("search")]
+    [AllowAnonymous]
     public IActionResult Search(string q)
     {
         var query = q?.Trim() ?? string.Empty;
@@ -58,9 +67,17 @@ public class PokemonCardsController : AppControllerBase
 
     [Route("{id:int}")]
     [Route("detalji/{id:int}")]
-    public IActionResult Details(int id)
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(int id)
     {
-        var card = _repository.GetPokemonCardById(id);
+        var card = await _dbContext.PokemonCards
+            .AsNoTracking()
+            .Include(pokemonCard => pokemonCard.CardSet)
+            .Include(pokemonCard => pokemonCard.CardInstances)
+                .ThenInclude(cardInstance => cardInstance.Collection)
+            .Include(pokemonCard => pokemonCard.Attachments)
+            .FirstOrDefaultAsync(pokemonCard => pokemonCard.Id == id);
+
         if (card == null)
         {
             return NotFound();
@@ -75,6 +92,7 @@ public class PokemonCardsController : AppControllerBase
     }
 
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var card = await _dbContext.PokemonCards
@@ -95,6 +113,7 @@ public class PokemonCardsController : AppControllerBase
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var card = await _dbContext.PokemonCards
@@ -119,6 +138,7 @@ public class PokemonCardsController : AppControllerBase
     }
 
     [Route("create")]
+    [Authorize]
     public IActionResult Create()
     {
         var model = new PokemonCard { CreatedDate = DateTime.UtcNow };
@@ -128,6 +148,7 @@ public class PokemonCardsController : AppControllerBase
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("create")]
+    [Authorize]
     public async Task<IActionResult> Create(PokemonCard model)
     {
         if (ModelState.IsValid)
@@ -153,6 +174,7 @@ public class PokemonCardsController : AppControllerBase
     }
 
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> Edit(int id)
     {
         var card = await _dbContext.PokemonCards.FindAsync(id);
@@ -165,6 +187,7 @@ public class PokemonCardsController : AppControllerBase
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> EditPost(int id)
     {
         var card = await _dbContext.PokemonCards.FindAsync(id);

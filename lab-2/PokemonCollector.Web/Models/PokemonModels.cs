@@ -102,6 +102,9 @@ public class CardSet
     
     // 1-N veza: CardSet -> PokemonCard
     public virtual ICollection<PokemonCard> Cards { get; set; } = new List<PokemonCard>();
+    
+    // 1-N veza: CardSet -> Attachment
+    public virtual ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
 }
 
 public class PokemonCard
@@ -134,6 +137,9 @@ public class PokemonCard
     
     // 1-N veza: PokemonCard -> Wishlist
     public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
+    
+    // 1-N veza: PokemonCard -> Attachment
+    public virtual ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
 }
 
 public class Collection

@@ -2,19 +2,37 @@
 
 <div class="form-group">
     <label asp-for="SenderId" class="control-label"></label>
-    <input asp-for="SenderId" class="form-control" />
+    <select asp-for="SenderId" class="form-control">
+        <option value="">-- Select Sender --</option>
+        @foreach (var user in (List<PokemonCollector.Web.Models.User>)ViewBag.Users)
+        {
+            <option value="@user.Id">@user.Username (@user.Email)</option>
+        }
+    </select>
     <span asp-validation-for="SenderId" class="text-danger"></span>
 </div>
 
 <div class="form-group">
     <label asp-for="ReceiverId" class="control-label"></label>
-    <input asp-for="ReceiverId" class="form-control" />
+    <select asp-for="ReceiverId" class="form-control">
+        <option value="">-- Select Receiver --</option>
+        @foreach (var user in (List<PokemonCollector.Web.Models.User>)ViewBag.Users)
+        {
+            <option value="@user.Id">@user.Username (@user.Email)</option>
+        }
+    </select>
     <span asp-validation-for="ReceiverId" class="text-danger"></span>
 </div>
 
 <div class="form-group">
     <label asp-for="CardInstanceId" class="control-label"></label>
-    <input asp-for="CardInstanceId" class="form-control" />
+    <select asp-for="CardInstanceId" class="form-control">
+        <option value="">-- Select Card Instance --</option>
+        @foreach (var instance in (List<PokemonCollector.Web.Models.CardInstance>)ViewBag.CardInstances)
+        {
+            <option value="@instance.Id">@instance.PokemonCard?.CardName - @instance.Collection?.CollectionName (Qty: @instance.Quantity)</option>
+        }
+    </select>
     <span asp-validation-for="CardInstanceId" class="text-danger"></span>
 </div>
 
@@ -33,7 +51,13 @@
 
 <div class="form-group">
     <label asp-for="TradeStatus" class="control-label"></label>
-    <input asp-for="TradeStatus" class="form-control" />
+    <select asp-for="TradeStatus" class="form-control">
+        <option value="">-- Select Status --</option>
+        <option value="Pending">Pending</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+        <option value="On Hold">On Hold</option>
+    </select>
     <span asp-validation-for="TradeStatus" class="text-danger"></span>
 </div>
 

@@ -8,6 +8,10 @@
     <p class="subtitle">@Model.Count() transactions recorded</p>
 </section>
 
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create new</a>
+</p>
+
 <div class="form-inline mb-3">
     <input id="trades-search" class="form-control" placeholder="Search trades..." />
 </div>
@@ -17,9 +21,6 @@
     {
         <div class="card entity-card">
             <div class="card-header">
-                <h3>
-                    Trade #@trade.Id
-                </h3>
                 <span class="@(trade.TradeStatus == "Completed" ? "status-badge status-active" : trade.TradeStatus == "Pending" ? "status-badge status-pending" : "status-badge status-archived")">
                     @trade.TradeStatus
                 </span>
@@ -68,7 +69,7 @@
             renderItem: function (item) {
                 var badgeClass = item.tradeStatus === 'Completed' ? 'status-badge status-active' : (item.tradeStatus === 'Pending' ? 'status-badge status-pending' : 'status-badge status-archived');
                 return '<div class="card entity-card">' +
-                    '<div class="card-header"><h3>Trade #' + item.id + '</h3><span class="' + badgeClass + '">' + escapeHtml(item.tradeStatus) + '</span></div>' +
+                    '<div class="card-header"><span class="' + badgeClass + '">' + escapeHtml(item.tradeStatus) + '</span></div>' +
                     '<div class="card-body"><div class="card-meta">' +
                     '<span>From: ' + escapeHtml(item.senderName || 'Unknown') + '</span>' +
                     '<span>To: ' + escapeHtml(item.receiverName || 'Unknown') + '</span>' +

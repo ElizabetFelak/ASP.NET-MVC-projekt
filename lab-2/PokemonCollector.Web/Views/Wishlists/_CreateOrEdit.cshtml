@@ -2,13 +2,25 @@
 
 <div class="form-group">
     <label asp-for="UserId" class="control-label"></label>
-    <input asp-for="UserId" class="form-control" />
+    <select asp-for="UserId" class="form-control">
+        <option value="">-- Select a User --</option>
+        @foreach (var user in (List<PokemonCollector.Web.Models.User>)ViewBag.Users)
+        {
+            <option value="@user.Id">@user.Username (@user.Email)</option>
+        }
+    </select>
     <span asp-validation-for="UserId" class="text-danger"></span>
 </div>
 
 <div class="form-group">
     <label asp-for="PokemonCardId" class="control-label"></label>
-    <input asp-for="PokemonCardId" class="form-control" />
+    <select asp-for="PokemonCardId" class="form-control">
+        <option value="">-- Select a Pokemon Card --</option>
+        @foreach (var card in (List<PokemonCollector.Web.Models.PokemonCard>)ViewBag.Cards)
+        {
+            <option value="@card.Id">@card.CardName</option>
+        }
+    </select>
     <span asp-validation-for="PokemonCardId" class="text-danger"></span>
 </div>
 

@@ -114,6 +114,47 @@ a:focus-visible {
   box-shadow: 0 4px 12px rgba(255, 222, 0, 0.3);
 }
 
+.login-partial {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.user-name {
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.login-partial .nav-link {
+  text-decoration: none;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  transition: all 0.2s ease;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.login-partial .nav-link:hover {
+  background: var(--color-accent-3);
+  border-color: var(--color-accent-3);
+  color: var(--color-ink);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 222, 0, 0.3);
+}
+
+.logout-form {
+  display: inline;
+}
+
 .breadcrumb-shell {
   padding: 0.75rem 0;
   background: rgba(0, 0, 0, 0.1);
@@ -124,7 +165,10 @@ a:focus-visible {
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
 .breadcrumbs a,

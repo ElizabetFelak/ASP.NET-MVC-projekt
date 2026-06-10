@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using PokemonCollector.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using PokemonCollector.Web.Models;
@@ -19,8 +20,11 @@ public class CollectionsController : AppControllerBase
     }
 
     [Route("create")]
-    public IActionResult Create()
+    [Authorize]
+    public async Task<IActionResult> Create()
     {
+        var users = await _dbContext.DomainUsers.ToListAsync();
+        ViewBag.Users = users;
         var model = new Collection { CreatedDate = DateTime.UtcNow };
         return View(model);
     }
@@ -28,6 +32,7 @@ public class CollectionsController : AppControllerBase
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("create")]
+    [Authorize]
     public async Task<IActionResult> Create(Collection model)
     {
         if (ModelState.IsValid)
@@ -37,20 +42,28 @@ public class CollectionsController : AppControllerBase
             return RedirectToAction(nameof(Index));
         }
 
+        var users = await _dbContext.DomainUsers.ToListAsync();
+        ViewBag.Users = users;
         return View(model);
     }
 
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> Edit(int id)
     {
         var item = await _dbContext.Collections.FindAsync(id);
         if (item == null) return NotFound();
+        
+        var users = await _dbContext.DomainUsers.ToListAsync();
+        ViewBag.Users = users;
+        
         return View(item);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> EditPost(int id)
     {
         var item = await _dbContext.Collections.FindAsync(id);
@@ -74,6 +87,7 @@ public class CollectionsController : AppControllerBase
     }
 
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var item = await _dbContext.Collections.FindAsync(id);
@@ -84,6 +98,7 @@ public class CollectionsController : AppControllerBase
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var item = await _dbContext.Collections.FindAsync(id);
@@ -97,16 +112,24 @@ public class CollectionsController : AppControllerBase
     [Route("")]
     [Route("index")]
     [Route("sve")]
+    [AllowAnonymous]
     public IActionResult Index()
     {
         SetBreadcrumbs(
             new BreadcrumbItemViewModel { Label = "Home", Controller = "Home", Action = "Index" },
             new BreadcrumbItemViewModel { Label = "Collections", IsActive = true });
 
-        return View(_repository.GetCollections());
+        var collections = _dbContext.Collections
+            .AsNoTracking()
+            .Include(collection => collection.User)
+            .OrderBy(collection => collection.CollectionName)
+            .ToList();
+
+        return View(collections);
     }
 
     [HttpGet("search")]
+    [AllowAnonymous]
     public IActionResult Search(string q)
     {
         var query = q?.Trim() ?? string.Empty;
@@ -131,9 +154,16 @@ public class CollectionsController : AppControllerBase
 
     [Route("{id:int}")]
     [Route("{id:int}/detalji")]
-    public IActionResult Details(int id)
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(int id)
     {
-        var collection = _repository.GetCollectionById(id);
+        var collection = await _dbContext.Collections
+            .AsNoTracking()
+            .Include(existingCollection => existingCollection.User)
+            .Include(existingCollection => existingCollection.CardInstances)
+                .ThenInclude(cardInstance => cardInstance.PokemonCard)
+            .FirstOrDefaultAsync(existingCollection => existingCollection.Id == id);
+
         if (collection == null)
         {
             return NotFound();

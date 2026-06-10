@@ -31,6 +31,251 @@
             }
         </ul>
     </article>
+
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+        <article class="detail-card">
+            <h2>📁 Attachments</h2>
+            <div id="dropzone" class="dropzone-container">
+                <form id="uploadForm" action="/api/attachments/cardset/@Model.Id/upload" class="dropzone" enctype="multipart/form-data">
+                    <div class="dz-message">
+                        <span>Drop files here or click to upload</span>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="filesList" class="files-list">
+                <h3>Files (@Model.Attachments?.Count ?? 0)</h3>
+                @if (Model.Attachments?.Any() ?? false)
+                {
+                    <ul>
+                        @foreach (var attachment in Model.Attachments.OrderByDescending(a => a.CreatedAt))
+                        {
+                            <li class="file-item" data-file-id="@attachment.Id">
+                                <a href="@attachment.FilePath" target="_blank" class="file-name">📄 @attachment.FileName</a>
+                                <span class="file-size">(@((attachment.FileSize / 1024.0).ToString("F2")) KB)</span>
+                                @if (User.Identity?.IsAuthenticated ?? false)
+                                {
+                                    <button type="button" class="btn-delete-file" data-file-id="@attachment.Id" title="Delete file">✕</button>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="muted">No files attached yet.</p>
+                }
+            </div>
+        </article>
+    }
 </section>
 
+<div class="action-row">
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+</div>
+
 <a class="back-link" asp-action="Index">Back to Card Sets</a>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+    <script>
+        // Configure Dropzone
+        Dropzone.options.uploadForm = {
+            maxFilesize: 50, // 50 MB
+            accept: function(file, done) {
+                done();
+            },
+            init: function() {
+                this.on("success", function(file, response) {
+                    console.log("File uploaded successfully:", response);
+                    loadFiles();
+                });
+                this.on("error", function(file, errorMessage) {
+                    console.error("Upload error:", errorMessage);
+                    alert("Error uploading file: " + errorMessage);
+                });
+            }
+        };
+
+        // Load files via AJAX
+        function loadFiles() {
+            const cardsetId = @Model.Id;
+            fetch(`/api/attachments/cardset/${cardsetId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const filesList = document.getElementById('filesList');
+                    if (!filesList) return;
+
+                    let html = `<h3>Files (${data.length})</h3>`;
+                    
+                    if (data.length === 0) {
+                        html += '<p class="muted">No files attached yet.</p>';
+                    } else {
+                        html += '<ul>';
+                        data.forEach(file => {
+                            const sizeKB = (file.fileSize / 1024).toFixed(2);
+                            html += `
+                                <li class="file-item" data-file-id="${file.id}">
+                                    <a href="${file.filePath}" target="_blank" class="file-name">📄 ${file.fileName}</a>
+                                    <span class="file-size">(${sizeKB} KB)</span>
+                                    <button type="button" class="btn-delete-file" data-file-id="${file.id}" title="Delete file">✕</button>
+                                </li>
+                            `;
+                        });
+                        html += '</ul>';
+                    }
+                    
+                    filesList.innerHTML = html;
+                    
+                    // Attach delete handlers
+                    document.querySelectorAll('.btn-delete-file').forEach(btn => {
+                        btn.addEventListener('click', deleteFile);
+                    });
+                })
+                .catch(error => console.error('Error loading files:', error));
+        }
+
+        // Delete file via AJAX
+        function deleteFile(e) {
+            e.preventDefault();
+            const fileId = e.target.dataset.fileId;
+            
+            if (!confirm('Are you sure you want to delete this file?')) {
+                return;
+            }
+            
+            fetch(`/api/attachments/${fileId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("File deleted successfully");
+                    loadFiles();
+                } else {
+                    alert("Error deleting file");
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting file:', error);
+                alert("Error deleting file: " + error);
+            });
+        }
+
+        // Load files on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadFiles);
+        } else {
+            loadFiles();
+        }
+    </script>
+}
+
+@section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css" rel="stylesheet">
+    <style>
+        .dropzone-container {
+            margin-bottom: 2rem;
+        }
+
+        .dropzone {
+            border: 2px dashed #007bff;
+            border-radius: 8px;
+            padding: 3rem 1rem;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dropzone:hover {
+            border-color: #0056b3;
+            background-color: #e7f3ff;
+        }
+
+        .dropzone.dz-drag-hover {
+            border-color: #0056b3;
+            background-color: #e7f3ff;
+            transform: scale(1.02);
+        }
+
+        .dz-message {
+            font-size: 1.2rem;
+            color: #495057;
+            text-align: center;
+        }
+
+        .files-list {
+            margin-top: 2rem;
+        }
+
+        .files-list h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .files-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #007bff;
+        }
+
+        .file-item .file-name {
+            flex: 1;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .file-item .file-name:hover {
+            text-decoration: underline;
+        }
+
+        .file-size {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .btn-delete-file {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-delete-file:hover {
+            background-color: #f8d7da;
+            color: #c82333;
+        }
+
+        .muted {
+            color: #6c757d;
+        }
+    </style>
+}

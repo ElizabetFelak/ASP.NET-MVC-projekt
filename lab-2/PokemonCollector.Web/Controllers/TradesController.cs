@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using PokemonCollector.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using PokemonCollector.Web.Models;
@@ -6,6 +7,7 @@ using PokemonCollector.Web.ViewModels;
 
 namespace PokemonCollector.Web.Controllers;
 
+[Route("[controller]")]
 public class TradesController : AppControllerBase
 {
     private readonly IPokemonRepository _repository;
@@ -18,8 +20,16 @@ public class TradesController : AppControllerBase
     }
 
     [Route("create")]
-    public IActionResult Create()
+    [Authorize]
+    public async Task<IActionResult> Create()
     {
+        var users = await _dbContext.DomainUsers.ToListAsync();
+        var cardInstances = await _dbContext.CardInstances
+            .Include(ci => ci.PokemonCard)
+            .Include(ci => ci.Collection)
+            .ToListAsync();
+        ViewBag.Users = users;
+        ViewBag.CardInstances = cardInstances;
         var model = new Trade { TradeDate = DateTime.UtcNow };
         return View(model);
     }
@@ -27,6 +37,7 @@ public class TradesController : AppControllerBase
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("create")]
+    [Authorize]
     public async Task<IActionResult> Create(Trade model)
     {
         if (ModelState.IsValid)
@@ -36,20 +47,38 @@ public class TradesController : AppControllerBase
             return RedirectToAction(nameof(Index));
         }
 
+        var users = await _dbContext.DomainUsers.ToListAsync();
+        var cardInstances = await _dbContext.CardInstances
+            .Include(ci => ci.PokemonCard)
+            .Include(ci => ci.Collection)
+            .ToListAsync();
+        ViewBag.Users = users;
+        ViewBag.CardInstances = cardInstances;
         return View(model);
     }
 
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> Edit(int id)
     {
         var item = await _dbContext.Trades.FindAsync(id);
         if (item == null) return NotFound();
+        
+        var users = await _dbContext.DomainUsers.ToListAsync();
+        var cardInstances = await _dbContext.CardInstances
+            .Include(ci => ci.PokemonCard)
+            .Include(ci => ci.Collection)
+            .ToListAsync();
+        ViewBag.Users = users;
+        ViewBag.CardInstances = cardInstances;
+        
         return View(item);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> EditPost(int id)
     {
         var item = await _dbContext.Trades.FindAsync(id);
@@ -73,6 +102,7 @@ public class TradesController : AppControllerBase
     }
 
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var item = await _dbContext.Trades.FindAsync(id);
@@ -83,6 +113,7 @@ public class TradesController : AppControllerBase
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var item = await _dbContext.Trades.FindAsync(id);
@@ -93,16 +124,28 @@ public class TradesController : AppControllerBase
         return RedirectToAction(nameof(Index));
     }
 
+    [Route("")]
+    [Route("index")]
+    [AllowAnonymous]
     public IActionResult Index()
     {
         SetBreadcrumbs(
             new BreadcrumbItemViewModel { Label = "Home", Controller = "Home", Action = "Index" },
             new BreadcrumbItemViewModel { Label = "Trades", IsActive = true });
 
-        return View(_repository.GetTrades());
+        var trades = _dbContext.Trades
+            .AsNoTracking()
+            .Include(trade => trade.Sender)
+            .Include(trade => trade.Receiver)
+            .Include(trade => trade.CardInstance)
+            .OrderByDescending(trade => trade.TradeDate)
+            .ToList();
+
+        return View(trades);
     }
 
     [HttpGet("/Trades/search")]
+    [AllowAnonymous]
     public IActionResult Search(string q)
     {
         var query = q?.Trim() ?? string.Empty;
@@ -129,9 +172,17 @@ public class TradesController : AppControllerBase
         return Json(items);
     }
 
-    public IActionResult Details(int id)
+    [Route("{id:int}/details")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(int id)
     {
-        var trade = _repository.GetTradeById(id);
+        var trade = await _dbContext.Trades
+            .AsNoTracking()
+            .Include(existingTrade => existingTrade.Sender)
+            .Include(existingTrade => existingTrade.Receiver)
+            .Include(existingTrade => existingTrade.CardInstance)
+            .FirstOrDefaultAsync(existingTrade => existingTrade.Id == id);
+
         if (trade == null)
         {
             return NotFound();

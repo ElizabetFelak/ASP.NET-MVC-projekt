@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab-2", "lab-2", "{B71EAF2C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonCollector.Web", "lab-2\PokemonCollector.Web\PokemonCollector.Web.csproj", "{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonCollector.Web.Tests", "lab-2\PokemonCollector.Web.Tests\PokemonCollector.Web.Tests.csproj", "{92ED28CB-11C2-495D-9873-A99A4EDC7025}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,18 @@ Global
 		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Release|x64.Build.0 = Release|Any CPU
 		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Release|x86.ActiveCfg = Release|Any CPU
 		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0}.Release|x86.Build.0 = Release|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Debug|x64.Build.0 = Debug|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Debug|x86.Build.0 = Debug|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Release|x64.ActiveCfg = Release|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Release|x64.Build.0 = Release|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Release|x86.ActiveCfg = Release|Any CPU
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +66,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5E744B27-3A9B-2F55-4370-C817C09AC504} = {BE23F390-6A9B-4676-49EC-710FA516AE06}
 		{043B3916-8064-4A17-BEC2-F6B8DC85BDB0} = {B71EAF2C-3D57-D350-38FC-F30E50A0CD26}
+		{92ED28CB-11C2-495D-9873-A99A4EDC7025} = {B71EAF2C-3D57-D350-38FC-F30E50A0CD26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F829188-16E1-4E7D-ACBB-E97D83CC40CD}

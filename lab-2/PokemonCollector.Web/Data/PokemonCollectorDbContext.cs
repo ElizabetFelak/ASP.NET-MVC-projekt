@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PokemonCollector.Web.Models;
 
@@ -7,23 +8,22 @@ namespace PokemonCollector.Web.Data;
 /// Entity Framework DbContext za PokemonCollector aplikaciju.
 /// Upravlja konekcijom na bazu podataka i omogućava rad s entitetima.
 /// </summary>
-public class PokemonCollectorDbContext : DbContext
+public class PokemonCollectorDbContext : IdentityDbContext<AppUser>
 {
-    public PokemonCollectorDbContext() { }
-
     public PokemonCollectorDbContext(DbContextOptions<PokemonCollectorDbContext> options) 
         : base(options)
     {
     }
 
     // DbSet za sve entitete
-    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<User> DomainUsers { get; set; } = null!;
     public DbSet<CardSet> CardSets { get; set; } = null!;
     public DbSet<PokemonCard> PokemonCards { get; set; } = null!;
     public DbSet<Collection> Collections { get; set; } = null!;
     public DbSet<CardInstance> CardInstances { get; set; } = null!;
     public DbSet<Trade> Trades { get; set; } = null!;
     public DbSet<Wishlist> Wishlists { get; set; } = null!;
+    public DbSet<Attachment> Attachments { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,5 +66,26 @@ public class PokemonCollectorDbContext : DbContext
             .WithMany(pc => pc.Wishlists)
             .HasForeignKey(w => w.PokemonCardId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // Konfiguracija za Attachment - CardSet veza (no cascade to avoid cycles)
+        modelBuilder.Entity<Attachment>()
+            .HasOne(a => a.CardSet)
+            .WithMany(cs => cs.Attachments)
+            .HasForeignKey(a => a.CardSetId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Konfiguracija za Attachment - PokemonCard veza
+        modelBuilder.Entity<Attachment>()
+            .HasOne(a => a.PokemonCard)
+            .WithMany(pc => pc.Attachments)
+            .HasForeignKey(a => a.PokemonCardId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Konfiguracija za CardSet - PokemonCard veza
+        modelBuilder.Entity<PokemonCard>()
+            .HasOne(pc => pc.CardSet)
+            .WithMany(cs => cs.Cards)
+            .HasForeignKey(pc => pc.CardSetId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -4,7 +4,8 @@ param(
     [string[]]$PayloadParts
 )
 $repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
-$logDir = Join-Path $repoRoot 'lab-4'
+$outputDir = "lab-5"
+$logDir = Join-Path $repoRoot $outputDir
 if (-not (Test-Path $logDir)) {
     New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 }

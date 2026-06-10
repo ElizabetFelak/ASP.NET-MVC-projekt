@@ -10,10 +10,12 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("7f4031ef-0d96-4ace-8961-91dc3390d7c1")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("PokemonCollector.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4342fe88b7acacab44fb5bc423985729df18ac27")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d5d38e3e1b4ea98fb5950c0e409adc7747fa097")]
 [assembly: System.Reflection.AssemblyProductAttribute("PokemonCollector.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PokemonCollector.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,19 +2,33 @@
 
 <div class="form-group">
     <label asp-for="CollectionId" class="control-label"></label>
-    <input asp-for="CollectionId" class="form-control" />
+    <select asp-for="CollectionId" class="form-control">
+        <option value="">-- Select a Collection --</option>
+        @foreach (var collection in (List<PokemonCollector.Web.Models.Collection>)ViewBag.Collections)
+        {
+            <option value="@collection.Id">@collection.CollectionName</option>
+        }
+    </select>
     <span asp-validation-for="CollectionId" class="text-danger"></span>
 </div>
 
 <div class="form-group">
     <label asp-for="PokemonCardId" class="control-label"></label>
-    <input asp-for="PokemonCardId" class="form-control" />
+    <select asp-for="PokemonCardId" class="form-control">
+        <option value="">-- Select a Pokemon Card --</option>
+        @foreach (var card in (List<PokemonCollector.Web.Models.PokemonCard>)ViewBag.Cards)
+        {
+            <option value="@card.Id">@card.CardName</option>
+        }
+    </select>
     <span asp-validation-for="PokemonCardId" class="text-danger"></span>
 </div>
 
 <div class="form-group">
     <label asp-for="Condition" class="control-label"></label>
-    <input asp-for="Condition" class="form-control" />
+    <select asp-for="Condition" asp-items="Html.GetEnumSelectList<PokemonCollector.Web.Models.CardCondition>()" class="form-control">
+        <option value="">-- Select Condition --</option>
+    </select>
     <span asp-validation-for="Condition" class="text-danger"></span>
 </div>
 

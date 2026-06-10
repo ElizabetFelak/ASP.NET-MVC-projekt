@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using PokemonCollector.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using PokemonCollector.Web.Models;
@@ -6,6 +7,7 @@ using PokemonCollector.Web.ViewModels;
 
 namespace PokemonCollector.Web.Controllers;
 
+[Route("[controller]")]
 public class CardInstancesController : AppControllerBase
 {
     private readonly IPokemonRepository _repository;
@@ -18,8 +20,13 @@ public class CardInstancesController : AppControllerBase
     }
 
     [Route("create")]
-    public IActionResult Create()
+    [Authorize]
+    public async Task<IActionResult> Create()
     {
+        var collections = await _dbContext.Collections.ToListAsync();
+        var cards = await _dbContext.PokemonCards.ToListAsync();
+        ViewBag.Collections = collections;
+        ViewBag.Cards = cards;
         var model = new CardInstance { AcquisitionDate = DateTime.UtcNow };
         return View(model);
     }
@@ -27,6 +34,7 @@ public class CardInstancesController : AppControllerBase
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("create")]
+    [Authorize]
     public async Task<IActionResult> Create(CardInstance model)
     {
         if (ModelState.IsValid)
@@ -36,20 +44,32 @@ public class CardInstancesController : AppControllerBase
             return RedirectToAction(nameof(Index));
         }
 
+        var collections = await _dbContext.Collections.ToListAsync();
+        var cards = await _dbContext.PokemonCards.ToListAsync();
+        ViewBag.Collections = collections;
+        ViewBag.Cards = cards;
         return View(model);
     }
 
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> Edit(int id)
     {
         var item = await _dbContext.CardInstances.FindAsync(id);
         if (item == null) return NotFound();
+        
+        var collections = await _dbContext.Collections.ToListAsync();
+        var cards = await _dbContext.PokemonCards.ToListAsync();
+        ViewBag.Collections = collections;
+        ViewBag.Cards = cards;
+        
         return View(item);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/edit")]
+    [Authorize]
     public async Task<IActionResult> EditPost(int id)
     {
         var item = await _dbContext.CardInstances.FindAsync(id);
@@ -73,6 +93,7 @@ public class CardInstancesController : AppControllerBase
     }
 
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var item = await _dbContext.CardInstances.FindAsync(id);
@@ -83,6 +104,7 @@ public class CardInstancesController : AppControllerBase
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     [Route("{id:int}/delete")]
+    [Authorize]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var item = await _dbContext.CardInstances.FindAsync(id);
@@ -93,16 +115,27 @@ public class CardInstancesController : AppControllerBase
         return RedirectToAction(nameof(Index));
     }
 
+    [Route("")]
+    [Route("index")]
+    [AllowAnonymous]
     public IActionResult Index()
     {
         SetBreadcrumbs(
             new BreadcrumbItemViewModel { Label = "Home", Controller = "Home", Action = "Index" },
             new BreadcrumbItemViewModel { Label = "Card Instances", IsActive = true });
 
-        return View(_repository.GetCardInstances());
+        var instances = _dbContext.CardInstances
+            .AsNoTracking()
+            .Include(instance => instance.Collection)
+            .Include(instance => instance.PokemonCard)
+            .OrderBy(instance => instance.Id)
+            .ToList();
+
+        return View(instances);
     }
 
     [HttpGet("/CardInstances/search")]
+    [AllowAnonymous]
     public IActionResult Search(string q)
     {
         var query = q?.Trim() ?? string.Empty;
@@ -128,9 +161,16 @@ public class CardInstancesController : AppControllerBase
         return Json(items);
     }
 
-    public IActionResult Details(int id)
+    [Route("{id:int}/details")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(int id)
     {
-        var instance = _repository.GetCardInstanceById(id);
+        var instance = await _dbContext.CardInstances
+            .AsNoTracking()
+            .Include(cardInstance => cardInstance.PokemonCard)
+            .Include(cardInstance => cardInstance.Collection)
+            .FirstOrDefaultAsync(cardInstance => cardInstance.Id == id);
+
         if (instance == null)
         {
             return NotFound();

@@ -6,6 +6,7 @@ using PokemonCollector.Web.ViewModels;
 
 namespace PokemonCollector.Web.Controllers;
 
+[Route("[controller]")]
 public class UsersController : AppControllerBase
 {
     private readonly IPokemonRepository _repository;
@@ -31,7 +32,7 @@ public class UsersController : AppControllerBase
     {
         if (ModelState.IsValid)
         {
-            _dbContext.Users.Add(model);
+            _dbContext.DomainUsers.Add(model);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -42,7 +43,7 @@ public class UsersController : AppControllerBase
     [Route("{id:int}/edit")]
     public async Task<IActionResult> Edit(int id)
     {
-        var item = await _dbContext.Users.FindAsync(id);
+        var item = await _dbContext.DomainUsers.FindAsync(id);
         if (item == null) return NotFound();
         return View(item);
     }
@@ -52,7 +53,7 @@ public class UsersController : AppControllerBase
     [Route("{id:int}/edit")]
     public async Task<IActionResult> EditPost(int id)
     {
-        var item = await _dbContext.Users.FindAsync(id);
+        var item = await _dbContext.DomainUsers.FindAsync(id);
         if (item == null) return NotFound();
 
         var ok = await TryUpdateModelAsync<User>(item, "",
@@ -75,7 +76,7 @@ public class UsersController : AppControllerBase
     [Route("{id:int}/delete")]
     public async Task<IActionResult> Delete(int id)
     {
-        var item = await _dbContext.Users.FindAsync(id);
+        var item = await _dbContext.DomainUsers.FindAsync(id);
         if (item == null) return NotFound();
         return View(item);
     }
@@ -85,28 +86,36 @@ public class UsersController : AppControllerBase
     [Route("{id:int}/delete")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var item = await _dbContext.Users.FindAsync(id);
+        var item = await _dbContext.DomainUsers.FindAsync(id);
         if (item == null) return NotFound();
 
-        _dbContext.Users.Remove(item);
+        _dbContext.DomainUsers.Remove(item);
         await _dbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
+    [Route("")]
+    [Route("index")]
     public IActionResult Index()
     {
         SetBreadcrumbs(
             new BreadcrumbItemViewModel { Label = "Home", Controller = "Home", Action = "Index" },
             new BreadcrumbItemViewModel { Label = "Users", IsActive = true });
 
-        return View(_repository.GetUsers());
+        var users = _dbContext.DomainUsers
+            .AsNoTracking()
+            .Include(u => u.Collections)
+            .OrderBy(u => u.Username)
+            .ToList();
+
+        return View(users);
     }
 
     [HttpGet("/Users/search")]
     public IActionResult Search(string q)
     {
         var query = q?.Trim() ?? string.Empty;
-        var items = _dbContext.Users
+        var items = _dbContext.DomainUsers
             .AsNoTracking()
             .Where(u => string.IsNullOrEmpty(query) || EF.Functions.Like(u.Username, $"%{query}%") || EF.Functions.Like(u.Email, $"%{query}%"))
             .OrderBy(u => u.Username)
@@ -124,9 +133,15 @@ public class UsersController : AppControllerBase
         return Json(items);
     }
 
-    public IActionResult Details(int id)
+    [Route("{id:int}")]
+    [Route("detalji/{id:int}")]
+    public async Task<IActionResult> Details(int id)
     {
-        var user = _repository.GetUserById(id);
+        var user = await _dbContext.DomainUsers
+            .AsNoTracking()
+            .Include(u => u.Collections)
+            .FirstOrDefaultAsync(u => u.Id == id);
+
         if (user == null)
         {
             return NotFound();

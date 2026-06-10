@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="~/css/entities.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PokemonCollector.Web.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header class="site-header">
@@ -34,6 +35,7 @@
                 <a asp-controller="Trades" asp-action="Index">Trades</a>
                 <a asp-controller="Wishlists" asp-action="Index">Wishlist</a>
             </nav>
+            <partial name="_LoginPartial" />
         </div>
         <div class="shell breadcrumb-shell">
             @await Html.PartialAsync("_Breadcrumbs", (IReadOnlyList<BreadcrumbItemViewModel>)(ViewData["Breadcrumbs"] as IReadOnlyList<BreadcrumbItemViewModel> ?? Array.Empty<BreadcrumbItemViewModel>()))

@@ -1,1 +1,30 @@
+# Build results
+bin/
+obj/
+.vs/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+agent_log.txt
+
+# Environment files with secrets
+appsettings.*.json
+!appsettings.json
+
+# MacOS
+.DS_Store
 
